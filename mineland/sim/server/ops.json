@@ -1,0 +1,470 @@
+[
+  {
+    "uuid": "2a386545-f1ff-370e-ab06-1a766a28340a",
+    "name": "111",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "faa5dca3-c3d4-354b-ae1b-dde9e5a14b3b",
+    "name": "Bob",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "21cc590a-2be8-3f84-bb42-732f2615a8d9",
+    "name": "MineflayerBot3",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "7341d069-b0c3-3a9d-9c89-956fd57b3bfe",
+    "name": "mineflayerbot23",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "755bc336-78f6-334b-a530-63f78325cfa2",
+    "name": "MineflayerBot7",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "e533254c-3d0f-3a37-bc60-ea64936237e3",
+    "name": "MineflayerBot12",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "b01aaba9-e863-3cd0-9aa6-f941d68a3f21",
+    "name": "MineflayerBot10",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "13a76ebe-55e4-3eb4-95f2-daa11dafd339",
+    "name": "MineflayerBot30",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "654d8dd9-106a-3fd0-869f-3bc6943875c8",
+    "name": "mineflayerbot28",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "2dce3c0c-8819-3585-ab12-d5ba5f578e51",
+    "name": "mineflayerbot2",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "d8df495c-c5f6-393a-af7c-b0e3dcbd760a",
+    "name": "mineflayerbot24",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "9e202dbf-0f7a-3c69-be8d-e780b37e4e79",
+    "name": "MineflayerBot24",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "d7386e2a-01aa-3250-88e0-05346d5cc83b",
+    "name": "MineflayerBot21",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "71a862ec-cbaa-3b54-84b8-07463f1ca2d0",
+    "name": "Liqi_Fu",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "0481b18e-57ea-3a1a-a776-e816a5d911d2",
+    "name": "MineflayerBot19",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "c6f118a9-1418-3f3d-b5ef-81363a55fdf3",
+    "name": "MineflayerBot17",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "1022bec8-1e41-4668-8014-708e819ca690",
+    "name": "Bot2",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "5f5ae495-174b-35c1-83b2-36a9984de41f",
+    "name": "MineflayerBot8",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "6d31d530-3639-33fb-a284-a360423f9219",
+    "name": "MineflayerBot11",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "b0edf914-bd85-3744-bf11-4eaf560b22c8",
+    "name": "MineflayerBot28",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "05f673da-66b5-37e3-b03b-09bbf434403e",
+    "name": "bot1",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "1039026d-6af8-3390-b961-645428519fc8",
+    "name": "MineflayerBot15",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "37aefd7e-a009-372a-a9e8-5ac9bd5b3110",
+    "name": "mineflayerbot4",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "1739f232-6649-31a8-89a2-40445585ee60",
+    "name": "mineflayerbot22",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "f0b5d727-ebbd-3e9f-92a5-67b5c64f4c39",
+    "name": "mineflayerbot16",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "9ad175b9-bc0d-3ad8-90de-ee84051c0839",
+    "name": "mineflayerbot29",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "b951d13e-beec-345a-9742-6bed9288484e",
+    "name": "MineflayerBot18",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "281a2f76-ae6e-367b-8fe9-1dc9eac64b50",
+    "name": "MineflayerBot31",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "d7910753-a026-3a92-b620-c47e228c43a9",
+    "name": "MineflayerBot25",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "b95db299-3d54-344d-b6d3-b20953872dc0",
+    "name": "MineflayerBot0",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "10920508-d5d8-3eed-93d2-92f193afe7d7",
+    "name": "Alice",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "52428a0e-1e30-3cb1-976c-e728b2614047",
+    "name": "a",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "c5bbe76a-d25a-3cf2-87c6-77b8c5837d5d",
+    "name": "mineflayerbot19",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "ed81d163-bf53-3cea-a053-d7386a2ce0c8",
+    "name": "MineflayerBot5",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "0f0aff82-0681-3f4c-905c-8e0b6250dc9a",
+    "name": "mineflayerbot1",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "0ab8d556-3740-39f1-b22b-2c9dd03a4c0d",
+    "name": "mineflayerbot7",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "8aba8aa8-ccbd-3f96-bff0-3775bd07be1a",
+    "name": "mineflayerbot11",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "349d5ad8-de05-37b5-ab4f-51f3ecd8dd25",
+    "name": "mineflayerbot14",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "9dffdc82-7a39-33b3-b3b9-ada7eee3ddf9",
+    "name": "MineflayerBot26",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "dd58d5e4-60b5-3d8b-8b3c-ab517fcb75e6",
+    "name": "mineflayerbot5",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "d664f4b4-d688-4d28-9fbd-3d58ef2844b4",
+    "name": "Bob",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "44d00313-19ac-35b8-8399-3f52b548a8ca",
+    "name": "mineflayerbot21",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "0aec32bc-648c-3feb-82df-c75a5d124dd7",
+    "name": "{\u0027alice\u0027}",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "3d640894-b9e0-3f78-8cec-44dd7e2dd265",
+    "name": "mineflayerbot18",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "8f3c4025-4ec2-3519-854f-aa7e85dc5d7e",
+    "name": "mineflayerbot13",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "7f36cf4e-9e32-34e1-8c3d-25bb2c053c4a",
+    "name": "mineflayerbot17",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "8eb8f337-1b89-3534-a2d5-12e37e83cea0",
+    "name": "mineflayerbot6",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "65859b9b-fb53-3b53-a15a-c579afbff6c8",
+    "name": "{\u0027bob\u0027}",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "a3d84416-f557-4bd9-b823-9d870109cde2",
+    "name": "YXH",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "c8dcb3ee-8f98-3018-89c1-f1cac683232d",
+    "name": "MineflayerBot23",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "2e46d05d-4280-3f19-8d6a-c931ba5239f0",
+    "name": "mineflayerbot10",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "6b80f912-018c-38ce-a043-34ea7020d1a9",
+    "name": "MineflayerBot13",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "aaa48671-200e-3b1d-a439-1c48ce21d734",
+    "name": "mineflayerbot20",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "972c4553-2a54-3843-b772-1802f40a4ea1",
+    "name": "MineflayerBot22",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "d7b15bbc-8d47-3985-a741-3f2436546d20",
+    "name": "MineflayerBot27",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "953ea9ae-8b30-3b9c-8a19-67b20988cdb2",
+    "name": "mineflayerbotop",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "7dc53aaf-f727-36c1-86e3-e0c7ae964a06",
+    "name": "mineflayerbot9",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "328b4f30-5bb7-3ea5-8cba-e29639f7d623",
+    "name": "YXH_XianYu",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "428df393-e6e5-385b-b736-9fa92aa17e2f",
+    "name": "mineflayerbot8",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "818cbdcf-526d-34d1-ae6c-3154c495ec26",
+    "name": "mineflayerbot3",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "9097f463-c17b-3bdb-88ea-5882a2afd4d6",
+    "name": "MineflayerBot29",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "88b76bc0-c593-3513-841e-6e458d87a953",
+    "name": "mineflayerbot25",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "67128b5b-2e6b-3ad1-baa0-1b937b03e5c5",
+    "name": "bot",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "546d7521-529b-372d-984a-3097a743ee40",
+    "name": "mineflayerbot27",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "31cd563c-601d-38bc-9a72-b1871f6ad3fd",
+    "name": "MineflayerBot4",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "e64d6c73-04ce-3d2b-a630-d5f9ab593eed",
+    "name": "mineflayerbot0",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "7d2e6300-e153-3d40-93ef-38b60018a7e5",
+    "name": "MineflayerBot6",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "1e13c2ea-22a1-39b0-a6e5-d4d0540d71d5",
+    "name": "MineflayerBot1",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "2d6e9ca9-6098-3134-9762-2e69d7666328",
+    "name": "mineflayerbot15",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "3bcfc504-a954-34a4-af2e-b308f2f20398",
+    "name": "mineflayerbot12",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "bb19ef2f-2f95-39a8-8bad-bda3ed373847",
+    "name": "Bot",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "1101a404-d970-366b-b384-1981e4b9b4a1",
+    "name": "jhz",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "6b448b08-c288-3084-99b7-5d7ccebf9818",
+    "name": "MineflayerBot20",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "03b838cb-16be-31b5-aa5b-7ad5b5caaa42",
+    "name": "MineflayerBot16",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "3459e24d-0d92-33c5-ba64-5e69c1fc2c87",
+    "name": "mineflayerbot26",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "7f1c0f98-2a9e-3f3c-8712-bb6af7ad17a5",
+    "name": "MineflayerBot9",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "c62dd43b-1f85-3d5e-afdd-7eabf3ec1a7c",
+    "name": "MineflayerBot2",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "f0a8f4ba-99f5-412a-9189-db832c934913",
+    "name": "Alice",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

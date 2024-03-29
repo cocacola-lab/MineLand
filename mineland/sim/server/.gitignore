@@ -1,0 +1,10 @@
+.fabric/
+crash-reports/
+logs/
+world/
+libraries/
+
+# reduce conflicts
+config/better_respawn/better_respawn.properties
+# server.properties
+usercache.json

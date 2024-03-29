@@ -1,0 +1,36 @@
+construction_task_1:
+
+construction_task_2:
+
+construction_task_3:
+
+construction_task_4:
+
+construction_task_5:
+
+construction_task_6:
+
+construction_task_7:
+  initial_inventory:
+    Spruce Planks: 64
+    Tinted Glass: 64
+    Spruce Slab: 64
+
+construction_task_8:
+  initial_inventory:
+    Birch Planks: 256
+    Birch Slab: 64
+    Spruce Slab: 64
+    Glass: 64
+    Birch Leaves: 64
+    Birch Door: 16
+
+construction_task_9:
+
+construction_task_10:
+
+construction_task_11:
+
+construction_task_12:
+
+construction_task_13:

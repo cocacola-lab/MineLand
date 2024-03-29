@@ -1,0 +1,11 @@
+{
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:forest": "2024-01-30 01:03:28 +0800",
+      "minecraft:jungle": "2024-01-30 01:03:56 +0800",
+      "minecraft:savanna": "2024-01-30 01:16:14 +0800"
+    },
+    "done": false
+  },
+  "DataVersion": 3105
+}

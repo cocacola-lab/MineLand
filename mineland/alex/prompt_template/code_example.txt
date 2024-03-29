@@ -1,0 +1,12 @@
+Code:
+```javascript
+// helper functions (only if needed, try to avoid them)
+...
+// main function after the helper functions
+async function yourMainFunctionName(bot) {
+  // ...
+  // Under no circumstances should you call yourself within a function to form a recursive function.
+}
+// use the function
+await yourMainFunctionName(bot);
+```
