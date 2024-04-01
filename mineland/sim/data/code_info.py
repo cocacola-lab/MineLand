@@ -1,7 +1,7 @@
 from typing import Dict
 
 class CodeInfo:
-    '''This class is used to represent a code Info that occured in mineflayer bot.
+    '''This class is used to represent a code Info that occurred in mineflayer bot.
 
     Example:
         >>> obs, codeInfo, event = mindland.step(action=act)
