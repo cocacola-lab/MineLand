@@ -24,7 +24,7 @@ Please note that our paper and code are currently a **Work In Progress** and wil
 
 # 1. Installation
 
-You can refer to the [Installation Docs](TODO) for more detailed installation guidelines.
+You can refer to the [Installation Docs](TODO) for more detailed installation guidelines and **Q&A**.
 
 ## 1.1 Prerequisites
 
