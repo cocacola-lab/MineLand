@@ -123,7 +123,6 @@ addEventListener = (bot, is_first_bot=false) => {
     // on bot get hurt
     bot.on('entityHurt', (entity) => {
         if(this.calc_dis(entity.position, bot.entity.position) < this.hearing_distance) {
-
             if (entity === bot.entity) {
                 this.events[this.bots.indexOf(bot)].push({
                     type: 'entityHurt',
