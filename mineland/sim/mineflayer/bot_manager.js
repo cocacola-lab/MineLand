@@ -122,20 +122,29 @@ addEventListener = (bot, is_first_bot=false) => {
     
     // on bot get hurt
     bot.on('entityHurt', (entity) => {
-        if (entity === bot.entity) {
-            this.events[this.bots.indexOf(bot)].push({
-                type: 'entityHurt',
-                entity_name: 'bot',
-                message: 'bot#' + bot.username + ' get hurt',
-                tick: self.tick,
-            })
-        } else if (entity.name === 'zombie') {
-            this.events[this.bots.indexOf(bot)].push({
-                type: 'entityHurt',
-                entity_name: 'zombie',
-                message: 'A zombie is hurt',
-                tick: self.tick,
-            })
+        if(this.calc_dis(entity.position, bot.entity.position) < this.hearing_distance) {
+            if (entity === bot.entity) {
+                this.events[this.bots.indexOf(bot)].push({
+                    type: 'entityHurt',
+                    entity_name: 'bot',
+                    message: 'bot#' + bot.username + ' get hurt',
+                    tick: self.tick,
+                })
+            } else if (entity.type === 'player') {
+                this.events[this.bots.indexOf(bot)].push({
+                    type: 'entityHurt',
+                    entity_name: entity.name,
+                    message: entity.username + ' is hurt',
+                    tick: self.tick,
+                })
+            } else if (entity.type === 'mob') {
+                this.events[this.bots.indexOf(bot)].push({
+                    type: 'entityHurt',
+                    entity_name: entity.name,
+                    message: entity.displayName + ' is hurt',
+                    tick: self.tick,
+                })
+            }
         }
     });
 
@@ -160,7 +169,6 @@ addEventListener = (bot, is_first_bot=false) => {
                 tick: self.tick,
             })
         }
-        
     })
 
     // on get chat message
@@ -181,15 +189,14 @@ addEventListener = (bot, is_first_bot=false) => {
                     tick: self.tick,
                 })
             }
-        }
-        else {
-                this.events[this.bots.indexOf(bot)].push({
-                    type: 'chat',
-                    only_message : message,
-                    username : username,
-                    message: "<" + username + '> ' + message,
-                    tick: self.tick,
-                })
+        } else {
+            this.events[this.bots.indexOf(bot)].push({
+                type: 'chat',
+                only_message : message,
+                username : username,
+                message: "<" + username + '> ' + message,
+                tick: self.tick,
+            })
         }
         // console.log("check finish!")
     });
@@ -209,6 +216,24 @@ addEventListener = (bot, is_first_bot=false) => {
             type: 'blockIsBeingBroken',
             block_name: block.name,
             message: 'A ' + block.name + ' block is being broken',
+            tick: self.tick,
+        })
+    })
+
+    bot.on('playerJoined', (player) => {
+        this.events[this.bots.indexOf(bot)].push({
+            type: 'playerJoined',
+            player_name: player.username,
+            message: player.username + ' joined',
+            tick: self.tick,
+        })
+    })
+
+    bot.on('playerLeft', (player) => {
+        this.events[this.bots.indexOf(bot)].push({
+            type: 'playerLeft',
+            player_name: player.username,
+            message: player.username + ' left',
             tick: self.tick,
         })
     })
