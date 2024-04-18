@@ -26,6 +26,7 @@ class CreativeTask(BaseTask):
         for tool, number in self.initial_inventory.items() :
             self.server_manager.execute(f"give @a minecraft:{tool} {number}")
         return obs
+    
     def step(self, action):
         obs, code_info, events, done, task_info = self.env.step(action)
 

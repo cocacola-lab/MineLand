@@ -338,6 +338,13 @@ createViewerOnAllBots(width, height) {
 }
 
 /**
+ * Create viewer on a bot
+ */
+createViewerOnLastBot(width, height) {
+    this.viewer_manager.createViewerOnBot(this.bots, this.bots.length - 1, width, height)
+}
+
+/**
  * Get the code execute error of a bot
  */
 getCodeError = (id) => {

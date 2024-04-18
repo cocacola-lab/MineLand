@@ -102,6 +102,12 @@ class ViewerManager {
         }
     }
 
+    async createViewerOnBot(bots, index, image_width, image_height) {
+        bots[index].on("spawn", async () => {
+            mineflayerHeadless(bots[index], this.views, { viewDistance: 3, height: image_height, width: image_width })
+        })
+    }
+
     /**
      * Get the first person view image of the bot in base64 format.
      * Be careful! The returned object may be null in the beginning.
