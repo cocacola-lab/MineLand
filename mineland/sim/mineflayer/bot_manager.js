@@ -84,10 +84,23 @@ createBot = (username, host, port, version) => {
             this.tick += 1
         })
     }
+
+    // is active
+    bot.mineland_is_active = true;
 }
+
+/**
+ * Disconnect a bot
+ */
+disconnectBot = (username) => {
+    const bot = this.getBotByName(username)
+    bot.mineland_is_active = false;
+    bot.end();
+}
+
+
 /**
  * load high level action
- * @param {mineflayer.Bot} bot
  */
 loadHighLevelActionCode = () => {
     var high_level_action_code = ""
@@ -209,7 +222,9 @@ calc_dis = (pos1, pos2)=>{
 
 updateBotsPositions = () => {
     for(let i = 0; i < this.bots.length; ++i) {
-        this.bots_positions[i] = this.bots[i].entity.position;
+        if (this.bots[i].mineland_is_active) {
+            this.bots_positions[i] = this.bots[i].entity.position;
+        }
     }
 }
 
@@ -236,8 +251,10 @@ stopTpInterval = () => {
 }
 
 stopAll = () => {
-    this.bots.forEach(bot=> {
-        bot.end();
+    this.bots.forEach(bot => {
+        if (bot.mineland_is_active) {
+            bot.end();
+        }
     });
     this.bots = [];
     this.code_status = [];
@@ -245,62 +262,66 @@ stopAll = () => {
 
 
 interruptBotByOrder = (id) => {
-    let bot = this.bots[id];
-    if(this.abort_controllers[id]) {
-        this.abort_controllers[id].abort();
+    const bot = this.bots[id];
+    if (bot.mineland_is_active) {
+        if(this.abort_controllers[id]) {
+            this.abort_controllers[id].abort();
+        }
+        bot.pathfinder.setGoal(null);
+        bot.clearControlStates();
+        bot.stopDigging();
+        this.code_status[id] = 'ready'
     }
-    bot.pathfinder.setGoal(null);
-    bot.clearControlStates();
-    bot.stopDigging();
-    this.code_status[id] = 'ready'
 }
 runCodeByOrder = async (id, code) => {
     this.abort_controllers[id]=new AbortController()
     const self = this;
     self.code_status[id] = 'running';
-    /**
-     * @type {mineflayer.Bot}
-     */
+
     let bot = self.bots[id];
-    const mcData = require("minecraft-data")(bot.version);
-    const movements = new Movements(bot, mcData);
-    bot.pathfinder.setMovements(movements);
-    self.abort_controllers[id].signal.addEventListener( 'abort', () => { 
+    if (bot.mineland_is_active) {
+        const mcData = require("minecraft-data")(bot.version);
+        const movements = new Movements(bot, mcData);
+        bot.pathfinder.setMovements(movements);
+        self.abort_controllers[id].signal.addEventListener( 'abort', () => { 
             bot=undefined 
         } 
-    );
-    
-    try {
-        let mineflayer_bot_id = id
-        this.current_code[id] = code
-        await eval("(async () =>{" +this.high_level_action_code+ "\n" + code +"\n"+"})()")
-        self.code_status[mineflayer_bot_id] = 'ready'
-    }
-    catch(e) {
-        console.log("catched after eval" , e);
-        if(bot) {
-            this.code_status[id] = 'ready';
-            this.code_error[id] = e;
+        );
+        
+        try {
+            let mineflayer_bot_id = id
+            this.current_code[id] = code
+            await eval("(async () =>{" +this.high_level_action_code+ "\n" + code +"\n"+"})()")
+            self.code_status[mineflayer_bot_id] = 'ready'
+        }
+        catch(e) {
+            console.log("catched after eval" , e);
+            if(bot) {
+                this.code_status[id] = 'ready';
+                this.code_error[id] = e;
+            }
         }
     }
-
 }
 
 runCodeByName = async(name, code) => {
     for(let i = 0;i < this.bots.length; ++i) {
-        if(this.bots[i].username == name) {
-            runCodeByOrder(i, code);
-            return;
+        if (!this.bots[i].mineland_is_active) continue
+        if (this.bots[i].username == name) {
+            runCodeByOrder(i, code)
+            return
         }
     }
 }
 clearCodeErorrs = () => {
     for(let i = 0; i < this.bots.length; ++i) {
+        if (!this.bots[i].mineland_is_active) continue
         this.code_error[i] = ''
     }
 }
 getBotByName = (name) => {
     for(var i = 0; i < this.bots.length; i++){
+        if (!this.bots[i].mineland_is_active) continue
         const bot = this.bots[i]
         if(bot.username == name) {
             return bot
@@ -323,10 +344,16 @@ getBotNumber = () => {
     return this.bots.length;
 }
 
+getBotIsActive = (id) => {
+    return this.bots[id].mineland_is_active
+}
+
 /**
  * Get the observation space of a bot
  */
 getBotObservation = (id) => {
+    if (!this.bots[id].mineland_is_active) return null
+
     return ObservationUtils.getObservation(this.bots[id], this.viewer_manager, this.tick);
 }
 
@@ -338,9 +365,18 @@ createViewerOnAllBots(width, height) {
 }
 
 /**
+ * Create viewer on a bot
+ */
+createViewerOnLastBot(width, height) {
+    this.viewer_manager.createViewerOnBot(this.bots, this.bots.length - 1, width, height)
+}
+
+/**
  * Get the code execute error of a bot
  */
 getCodeError = (id) => {
+    if (!this.bots[id].mineland_is_active) return null
+
     let error = this.code_error[id];
     if(error==='') return {};
 
@@ -355,6 +391,8 @@ getCodeError = (id) => {
  * Get the code info of a bot
  */
 getCodeInfo = (id) => {
+    if (!this.bots[id].mineland_is_active) return null
+
     let name = this.bots[id].username;
     let is_running = this.code_status[id] === 'running';
     let is_ready = is_running ? false : true;
@@ -375,6 +413,8 @@ getCodeInfo = (id) => {
  * Get the event of a bot
  */
 getEvent = (id) => {
+    if (!this.bots[id].mineland_is_active) return []
+
     if(id < this.events.length) return this.events[id]
     else return []
 }
@@ -389,6 +429,8 @@ clearEvents = () => {
 }
 allBotChat = (s) => {
     for(let i = 0; i < this.bots.length; ++i) {
+        if (!this.bots[i].mineland_is_active) continue
+
         this.bots[i].chat(s)
     }
 }

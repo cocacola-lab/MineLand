@@ -78,6 +78,8 @@ app.post("/step_pre", (req, res) => {
 
     // ===== Execute Actions =====
     for(let i = 0; i < bots_count; i++) {
+        if (!bot_manager.getBotIsActive(i)) continue;
+
         code = req.body.action[i].code;
         if(req.body.action[i].type == 0) {
             bot_manager.addCodeTick(i, ticks)
@@ -127,11 +129,42 @@ app.post("/step_lst", (req, res) => {
             code_info: codeInfo,
             event: events
         })
-    }, ticks*50)
+    }, ticks * 50)
 })
 
-app.post("/end", (req, res)=> {
+app.post("/end", (req, res) => {
     bot_manager.stopAll();
+    res.status(200).json({ return_code:200 })
+})
+
+app.post("/add_an_agent", (req, res) => {
+    if (!req.body.agent_config) {
+        return res.status(400).json({ return_code: 400, error: 'Missing required properties in the request body' });
+    }
+    
+    number_of_bot += 1;
+
+    console.log("Add an agent: " + req.body.agent_config.name)
+    bot_manager.createBot(req.body.agent_config.name, server_host, server_port, version)
+
+    // The following function needs to complete its execution within 3 seconds.
+    if(!req.body.headless) {
+        bot_manager.createViewerOnLastBot(width = req.body.image_width, height = req.body.image_height)
+    }
+
+    // ===== Get Observations =====
+    setTimeout(() => {
+        res.status(200).json({ return_code:200 })
+    }, 1000) // wait for 1 seconds to make sure the bot is spawned
+})
+
+app.post("/disconnect_an_agent", (req, res) => {
+    if (!req.body.name) {
+        return res.status(400).json({ return_code: 400, error: 'Missing required properties in the request body' })
+    }
+    const name = req.body.name
+    console.log("Disconnect an agent: " + name)
+    bot_manager.disconnectBot(name)
     res.status(200).json({ return_code:200 })
 })
 

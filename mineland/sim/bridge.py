@@ -85,13 +85,13 @@ class Bridge:
 
     def step(
         self,
-        actions: List[Action],
+        action: List[Action],
     ) -> Tuple[List[Observation], List[CodeInfo], List[Event]]:
         res = requests.post(
             f"{self.mineflayer_host_port}/step_pre",
             json={
                 "ticks": self.ticks_per_step,
-                "action": [action.to_dict() for action in actions], # List[Action], Action: {"type": int, "code": str}
+                "action": [action.to_dict() for action in action], # List[Action], Action: {"type": int, "code": str}
             },
             timeout=self.request_timeout,
         )
@@ -101,7 +101,7 @@ class Bridge:
             raise RuntimeError("Failed to step, status code: " + str(res.status_code) + '\n' + "  message: " + data['error'] + '\n')
         
         # ===== Divider =====
-        if self.enable_auto_pause:
+        if self.server_manager is not None and self.enable_auto_pause:
             self.server_manager.execute("runtick " + str(self.ticks_per_step))
 
         res = requests.post(
@@ -116,13 +116,43 @@ class Bridge:
         if res.status_code != 200:
             raise RuntimeError("Failed to step, status code: " + str(res.status_code) + '\n' + "  message: " + data['error'] + '\n')
         for i in range(len(data['observation'])):
-            data['observation'][i]['event'] = data['event'][i]
+            if data['observation'][i] is not None:
+                data['observation'][i]['event'] = data['event'][i]
         
         return (
             Observation.from_json_list(data['observation']),
             CodeInfo.from_json_list(data['code_info']),
             data['event'], # No event class wrapper
         )
+    
+    def add_an_agent(self, agent_config: Dict[str, Union[int, str]]):
+        res = requests.post(
+            f"{self.mineflayer_host_port}/add_an_agent",
+            json={
+                "server_host": self.minecraft_server_host,
+                "server_port": self.minecraft_server_port,
+                "minecraft_version": self.minecraft_version,
+                "agent_config": agent_config,
+                "image_width": self.image_width,
+                "image_height": self.image_height,
+                "headless": self.headless,
+            },
+            timeout=self.request_timeout,
+        )
+        if res.status_code != 200:
+            raise RuntimeError("[Bridge]", "Failed to add an agent, status code: " + str(res.status_code))
+    
+    def disconnect_an_agent(self, name: str):
+        res = requests.post(
+            f"{self.mineflayer_host_port}/disconnect_an_agent",
+            json={
+                "name": name,
+            },
+            timeout=self.request_timeout,
+        )
+        if res.status_code != 200:
+            raise RuntimeError("[Bridge]", "Failed to disconnect an agent, status code: " + str(res.status_code))
+
 
     def close(self):
         res = requests.post(
@@ -190,20 +220,20 @@ class Bridge:
         return res.json()
     
     def moveCamera(self, camera_id, pos, yaw, pitch):
-            if camera_id not in self.camera_set:
-                raise ValueError(f"Camera ID {camera_id} is not available in the camera set.")
-            
-            res = requests.post(
-                f"{self.mineflayer_host_port}/moveCameraLocation",
-                json={
-                    "camera_id": camera_id,
-                    "d_pos": pos,
-                    "d_yaw": yaw,
-                    "d_pitch": pitch,
-                },
-                timeout=self.request_timeout,
-            )
-            if res.status_code != 200:
-                raise RuntimeError("[Bridge]", "Failed to add camera location, status code: " + str(res.status_code))
-            return res.json()
+        if camera_id not in self.camera_set:
+            raise ValueError(f"Camera ID {camera_id} is not available in the camera set.")
+        
+        res = requests.post(
+            f"{self.mineflayer_host_port}/moveCameraLocation",
+            json={
+                "camera_id": camera_id,
+                "d_pos": pos,
+                "d_yaw": yaw,
+                "d_pitch": pitch,
+            },
+            timeout=self.request_timeout,
+        )
+        if res.status_code != 200:
+            raise RuntimeError("[Bridge]", "Failed to add camera location, status code: " + str(res.status_code))
+        return res.json()
     

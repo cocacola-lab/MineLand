@@ -28,6 +28,9 @@ def make(**kwargs):
         >>> env = mineland.make("survival_multi_agent", survival_target_day=1, agents_count=2)
     '''
 
+    if 'server_host' in kwargs or 'server_port' in kwargs:
+        raise ValueError("server_host and server_port should not be provided in the Task Mode!\nBecause Benchmark only works in the local environment.")
+
     if 'task_id' not in kwargs:
         raise ValueError("task_id must be provided in the arguments.")
 
