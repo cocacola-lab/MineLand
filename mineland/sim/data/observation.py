@@ -128,5 +128,5 @@ class Observation:
     
     @classmethod
     def from_json_list(cls, json_list):
-        return [cls.from_json(json) for json in json_list]
+        return [(cls.from_json(json) if json is not None else None) for json in json_list]
     

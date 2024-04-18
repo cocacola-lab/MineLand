@@ -210,6 +210,9 @@ class MineLand(gym.Env):
             assert False, "TODO: Sound System supports for adding agents."
 
         self.bridge.add_an_agent(config)
+    
+    def disconnect_an_agent(self, name: str):
+        self.bridge.disconnect_an_agent(name)
 
     def render(self, mode: str = 'human'):
         pass

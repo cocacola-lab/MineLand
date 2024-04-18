@@ -116,7 +116,8 @@ class Bridge:
         if res.status_code != 200:
             raise RuntimeError("Failed to step, status code: " + str(res.status_code) + '\n' + "  message: " + data['error'] + '\n')
         for i in range(len(data['observation'])):
-            data['observation'][i]['event'] = data['event'][i]
+            if data['observation'][i] is not None:
+                data['observation'][i]['event'] = data['event'][i]
         
         return (
             Observation.from_json_list(data['observation']),
@@ -140,6 +141,18 @@ class Bridge:
         )
         if res.status_code != 200:
             raise RuntimeError("[Bridge]", "Failed to add an agent, status code: " + str(res.status_code))
+    
+    def disconnect_an_agent(self, name: str):
+        res = requests.post(
+            f"{self.mineflayer_host_port}/disconnect_an_agent",
+            json={
+                "name": name,
+            },
+            timeout=self.request_timeout,
+        )
+        if res.status_code != 200:
+            raise RuntimeError("[Bridge]", "Failed to disconnect an agent, status code: " + str(res.status_code))
+
 
     def close(self):
         res = requests.post(
