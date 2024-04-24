@@ -75,7 +75,7 @@ for i in range(5000):
 mland.close()
 ```
 
-You can refer to [MineLand Docs](TODO) or the code under the `scripts` directory for development. (WIP)
+You can refer to [MineLand Docs](./docs/api.md) or the code under the `scripts` directory for development. (WIP)
 
 MineLand does NOT have a minecraft game client for higher efficiency. You can obtain the current visual information of the agents from `obs`, or connect to the server using a vanilla Minecraft 1.19 client. The server operates locally with the default port, which means you can directly connect to `localhost:25565` in the game to enter the server.
 

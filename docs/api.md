@@ -1,12 +1,12 @@
 # MineLand API Documentation
 
-> The structure of this document is based on [MineDojo Docs](https://docs.minedojo.org/), whose clarity and widespread acceptance make this documentation easier to adopt and read.
+> The structure of this document is based on [MineDojo Docs](https://docs.minedojo.org/), whose clarity and widespread acceptance.
 
 ## 1. First Agent in MineLand
 
 ### Quick Start
 
-After following the [Installation Docs](./installation.md), you can import MineLand.
+After following the [Installation Docs](./installation.md), you can **import MineLand**.
 
 ```python
 import mineland
@@ -46,15 +46,15 @@ for i in range(5000):
     if done: break
 ```
 
-In the main loop, we need to complete at least 3 parts of the code: **getting actions**, **passing in actions and receiving observations**, and **checking termination conditions**.
+In the main loop, we need to complete at least 3 parts of the code: getting actions, passing in actions and receiving observations, and checking termination conditions.
 
-**First part, getting actions.** MineLand's default high-level actions differ from the action spaces of other gym-style libraries. A high-level action consists of a piece of JavaScript code. In this example, we will fetch a RESUME Action (which performs no action). You can also use `mineland.Action.chat_op(num_of_agents)` to get the bot to print messages in the chat area.
+First part, getting actions. MineLand's default high-level actions differ from the action spaces of other gym-style libraries. A high-level action consists of a piece of JavaScript code. In this example, we will fetch a RESUME Action (which performs no action). You can also use `mineland.Action.chat_op(num_of_agents)` to get the bot to print messages in the chat area.
 
 Please note, to implement the "interruption" feature, high-level actions are divided into two modes: `RESUME` and `NEW`. The code is executed **only** under NEW, and any previous code is interrupted. You can check in the observation space whether the previous code has finished executing. For more details, see [code_info](#code_info)
 
-**Second part, getting observations.** Pass the action into the `step` function and obtain five pieces of information: `obs`, `code_info`, `event`, `done`, and `task_info`. Here, `obs`, `code_info`, and `event` are all lists, each equal in length to the number of agents. For instance, `obs[0]` can be used to view all observation information for the first agent; you might try printing `obs[0]`, `code_info[0]`, and `event[0]` directly. Meanwhile, `done` and `task_info` are not lists, and relate to benchmark information.
+Second part, getting observations. Pass the action into the `step` function and obtain five pieces of information: `obs`, `code_info`, `event`, `done`, and `task_info`. Here, `obs`, `code_info`, and `event` are all lists, each equal in length to the number of agents. For instance, `obs[0]` can be used to view all observation information for the first agent; you might try printing `obs[0]`, `code_info[0]`, and `event[0]` directly. Meanwhile, `done` and `task_info` are not lists, and relate to benchmark information.
 
-**Third part, termination conditions.** This can be implemented using a simple `if done: break` statement.
+Third part, termination conditions. This can be implemented using a simple `if done: break` statement.
 
 **Finally**, close the environment by executing the follows.
 
