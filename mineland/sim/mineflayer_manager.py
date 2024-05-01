@@ -4,12 +4,15 @@ import threading
 import time
 import os
 
-from ..utils import yellow_text
+from ..utils import yellow_text, red_text
 
 std_print = print
 def print(*args, end='\n'):
     text = [yellow_text(str(arg)) for arg in args]
     std_print("[Mineflayer]", *text, end=end)
+def print_error(*args, end='\n'):
+    text = [red_text(str(arg)) for arg in args]
+    std_print("[Mineflayer Error]", *text, end=end)
 
 class MineflayerManager:
     def __init__(
@@ -28,6 +31,9 @@ class MineflayerManager:
         self.output_filter = [
             'physicTick',
             'GLib-GIO-WARNING',
+        ]
+        self.version_not_match_filter = [
+            'DeprecationWarning',
         ]
     
     def start(self):
@@ -62,6 +68,8 @@ class MineflayerManager:
 
             if output == '':
                 continue
+            if any(substr in output for substr in self.version_not_match_filter):
+                print_error("Warning: Node.js version is not matched! Please use v18.18.2!")
 
             if 'started' in output:
                 self.is_running = True
@@ -78,6 +86,8 @@ class MineflayerManager:
                 continue
             if output.isspace():
                 continue
+            if any(substr in output for substr in self.version_not_match_filter):
+                print_error("Warning: Node.js version is not matched! Please use v18.18.2!")
 
             print(output, end='')
     

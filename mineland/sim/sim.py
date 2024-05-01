@@ -36,11 +36,12 @@ class MineLand(gym.Env):
 
         server_host: str = None,
         server_port: int = None,
-        image_size: Tuple[int, int] = (144, 256),
-        is_printing_server_info: bool = True,
-        is_printing_mineflayer_info: bool = True,
 
         headless: bool = False,
+        image_size: Tuple[int, int] = (144, 256),
+
+        is_printing_server_info: bool = True,
+        is_printing_mineflayer_info: bool = True,
     ):
 
         print("MineLand Simulator is initializing...")
