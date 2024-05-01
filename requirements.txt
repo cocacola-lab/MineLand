@@ -6,7 +6,7 @@ langchain==0.1.1
 langchain-openai==0.0.2.post1
 omegaconf==2.3.0
 opencv-python==4.8.1.78
-pillow==10.1.0
+pillow==10.3.0
 pip-chill==1.0.3
 python-dotenv==1.0.0
 watchfiles==0.21.0
