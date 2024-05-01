@@ -6,6 +6,9 @@ AGENTS_CONFIG = [{"name": f"MineflayerBot{i}"} for i in range(AGENTS_COUNT)]
 def get_resume_action():
     return [mineland.Action(type=mineland.Action.RESUME, code="") for _ in range(AGENTS_COUNT)]
 
+def red_text(text):
+    return f"\033[31m{text}\033[0m"
+
 def print_obs(obs):
     print(red_text('===== Observations ====='))
     for i in range(len(obs)):
@@ -32,9 +35,6 @@ mland = mineland.make(
 
     ticks_per_step=20, # 1 second (because 20 ticks per second in minecraft)
 )
-
-def red_text(text):
-    return f"\033[31m{text}\033[0m"
 
 obs = mland.reset()
 for i in range(5000):
