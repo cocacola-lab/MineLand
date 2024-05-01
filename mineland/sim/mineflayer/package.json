@@ -2,7 +2,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "canvas": "^2.11.2",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "minecraft-data": "^3.47.0",
     "minecrafthawkeye": "^1.3.6",
     "mineflayer": "^4.14.0",
