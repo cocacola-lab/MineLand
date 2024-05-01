@@ -10,15 +10,19 @@ from .server_manager import ServerManager
 from .mineflayer_manager import MineflayerManager
 from .sound_system import SoundSystem
 from .bridge import Bridge
-from .data.action import Action
-from .data.observation import Observation
-from .data.code_info import CodeInfo
-from .data.event import Event
-from ..utils import green_text
+from .data import Action
+from .data import LowLevelAction
+from .data import Observation
+from .data import CodeInfo
+from .data import Event
+from ..utils import green_text, red_text
 
 std_print = print
 def print(*args, end='\n'):
     text = [green_text(str(arg)) for arg in args]
+    std_print("[MineLand]", *text, end=end)
+def print_error(*args, end='\n'):
+    text = [red_text(str(arg)) for arg in args]
     std_print("[MineLand]", *text, end=end)
 
 class MineLand(gym.Env):
@@ -33,6 +37,7 @@ class MineLand(gym.Env):
         ticks_per_step: int = 5,
         enable_auto_pause: bool = False,
         enable_sound_system: bool = False,
+        enable_low_level_action: bool = False,
 
         server_host: str = None,
         server_port: int = None,
@@ -50,6 +55,7 @@ class MineLand(gym.Env):
         self.ticks_per_step = ticks_per_step
         self.enable_auto_pause = enable_auto_pause
         self.enable_sound_system = enable_sound_system
+        self.enable_low_level_action = enable_low_level_action
 
         self.agents_count = agents_count
         self.agents_config = agents_config
@@ -125,6 +131,7 @@ class MineLand(gym.Env):
             agents_config=self.agents_config,
             ticks_per_step=self.ticks_per_step,
             enable_auto_pause=self.enable_auto_pause,
+            enable_low_level_action=self.enable_low_level_action,
             image_size=self.image_size,
             minecraft_server_host=self.server_host,
             minecraft_server_port=self.server_port,
@@ -166,7 +173,7 @@ class MineLand(gym.Env):
 
     def step(
         self,
-        action: List[Action]
+        action: List[Union[Action, LowLevelAction]]
     ) -> Tuple[List[Observation], List[CodeInfo], List[Event], bool, TaskInfo]:
         """Step the environment.
 
@@ -181,6 +188,13 @@ class MineLand(gym.Env):
 
         if self.server_manager is not None and self.enable_auto_pause:
                 self.server_manager.wait_for_runtick_finish()
+        
+        if self.enable_low_level_action:
+            if any(isinstance(a, Action) for a in action):
+                print_error("You enabled low-level action, but you are using high-level action.")
+        else:
+            if any(isinstance(a, LowLevelAction) for a in action):
+                print_error("You didn't enable low-level action, but you are using low-level action.")
 
         obs, code_info, event = self.bridge.step(action)
 

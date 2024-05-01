@@ -11,7 +11,7 @@ class Action:
     def __str__(self):
         return f"Action(type={self.type}, code={self.code})"
 
-    def to_dict(self):
+    def to_json(self):
         return {
             "type": self.type,
             "code": self.code,

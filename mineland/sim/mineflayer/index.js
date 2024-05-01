@@ -63,6 +63,7 @@ app.post("/start", (req, res) => {
 app.post("/step_pre", (req, res) => {
     data = req.body
     let ticks = data.ticks
+    let is_low_level_action = data.is_low_level_action
     let bots_count = data.action.length
 
     // when bots_count !== bot_manager.bots.length, we need to throw an exception
@@ -77,21 +78,29 @@ app.post("/step_pre", (req, res) => {
     process.on('uncaughtException', otherError)
 
     // ===== Execute Actions =====
-    for(let i = 0; i < bots_count; i++) {
-        if (!bot_manager.getBotIsActive(i)) continue;
+    if (is_low_level_action) {
+        for(let i = 0; i < bots_count; i++) {
+            if (!bot_manager.getBotIsActive(i)) continue;
 
-        code = req.body.action[i].code;
-        if(req.body.action[i].type == 0) {
-            bot_manager.addCodeTick(i, ticks)
-            continue;
+            console.log("Low Level Action: ", req.body.action[i])
         }
-        // TODO: execute actions
-        bot_manager.interruptBotByOrder(i);
-        bot_manager.runCodeByOrder(i, code)
-        bot_manager.changeCodeTick(i, 0)
+    } else {
+        for(let i = 0; i < bots_count; i++) {
+            if (!bot_manager.getBotIsActive(i)) continue;
+
+            code = req.body.action[i].code;
+            if(req.body.action[i].type == 0) {
+                bot_manager.addCodeTick(i, ticks)
+                continue;
+            }
+            // TODO: execute actions
+            bot_manager.interruptBotByOrder(i);
+            bot_manager.runCodeByOrder(i, code)
+            bot_manager.changeCodeTick(i, 0)
+        }
     }
 
-    bot_manager.stopTpInterval();
+    // bot_manager.stopTpInterval();
     
     // ===== Run Ticks =====
     res.status(200).json({ return_code:200 })
