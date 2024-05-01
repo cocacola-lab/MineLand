@@ -6,7 +6,7 @@ import mineland
 
 # Make the environment
 mland = mineland.MineLand(
-    server_host="localhost", # You can change this to your server IP
+    server_host='localhost', # You can change this to your server IP
     server_port=25565,       # You can change this to your server port
     agents_count = 2,
 )
