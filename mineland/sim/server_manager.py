@@ -9,12 +9,15 @@ import time
 import os
 import shutil
 
-from ..utils import blue_text
+from ..utils import blue_text, red_text
 
 std_print = print
 def print(*args, end='\n'):
     text = [blue_text(str(arg)) for arg in args]
     std_print("[Server]", *text, end=end)
+def print_error(*args, end='\n'):
+    text = [red_text(str(arg)) for arg in args]
+    std_print("[Server Error]", *text, end=end)
 
 # TODO: 多线程管理！ServerManager和MineflayerManager都需要多线程管理！
 #       特别是 is_running 和 is_runtick_finished 这两个变量，如果数据不一致的话，会导致整个服务器卡死！
@@ -58,6 +61,11 @@ class ServerManager:
             "commands.pause.unpausing",
             "Teleported",
         ]
+
+        self.another_server_is_running_filter = [
+            'Perhaps a server is already running on that port'
+        ]
+
     def select_to_construction_world(self) :
         src_folder = os.path.join(self.path, 'construction_world')
         dst_folder = os.path.join(self.path, 'world')
@@ -129,6 +137,8 @@ class ServerManager:
                 continue
             if any(substr in output for substr in self.output_filter):
                 continue
+            if any(substr in output for substr in self.another_server_is_running_filter):
+                print_error('Another server is running! You may need to restart MineLand.')
             
             if self.is_printing_server_info:
                 print(output, end='')

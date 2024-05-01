@@ -59,7 +59,7 @@ Third part, termination conditions. This can be implemented using a simple `if d
 **Finally**, close the environment by executing the follows.
 
 ```python
-mland.close();
+mland.close()
 ```
 
 ### Observation and Action Spaces
@@ -70,24 +70,112 @@ Action Space (High-level) is all functions you can invoke in javascript and mine
 
 ## 2. Environment Parameters
 
-### agents_config
+### Simulator
 
-### server_host
+* You can refer to: `./mineland/sim/sim.py` and `./mineland/tasks/__init__.py`
 
-### server_port
+#### agents_count
+
+* Type: `int`
+* Definition: The number of agents in the initial environment.
+* Default value: N/A
+* Example: `agents_count=2`.
+
+#### agents_config
+
+* Type: `List[Dict[str, Union[int, str]]]`,
+* Definition: The configuration of agents.
+  * Currently only supports agents' names.
+* Caution: the length of configurations must be equal to `agents_count`.
+* Default value: `[{'name': f'MineflayerBot{i}'} for i in range(kwargs['agents_count'])]`
+* Example: above
+
+#### task_id
+
+* Type: `str`
+* Definition: The task you're preparing to activate.
+  * The document of tasks is WIP, you can refer to `./mineland/tasks/__init__.py` and `./mineland/tasks/description_files/`
+* Default value: N/A
+* Example: `task_id='survival_2_days'`,
+
+#### ticks_per_step
+
+* Type: `int`
+* Definition: The number of ticks that pass per single step.
+* Caution: if you want to pause the game while the agent is thinking, you must enable `enable_auto_pause`.
+* Default value: N/A
+* Example: `ticks_per_step=20`
+  * means waiting 1 second per step
+
+#### enable_auto_pause
+
+* Type: `bool`
+* Definition: Determines whether to enable AUTO PAUSE mode.
+  * AUTO PAUSE mode automatically pausees the game when the `step` function is not running.
+* Default value: `False`
+* Example: `enable_auto_pause=True`
+
+#### enable_sound_system
+
+* Type: `bool`
+* Definition: Determines whether to enable Sound System.
+* Caution: **Sound System is not complete**, but it can still function.
+* Default value: `False`
+* Example: `enable_sound_system=True`
+
+#### server_host
+
+* Type: `str`
+* Definition: The **host** of vanilla 1.19 minecraft server you want to connect.
+* Default value: `None`
+  * Means, MineLand will launch a minecraft server automatically.
+* Example: `server_host='localhost'`
+
+#### server_port
+
+* Type: `int`
+* Definition: The **port** of vanilla 1.19 minecraft server you want to connect.
+* Default value: `None`
+* Example: `server_port=25565`
+
+#### headless
+
+* Type: `bool`
+* Definition: Determines whether to disable the visual information (RGB frames)
+* Default value: `False`
+* Example: `headless=True`
+
+#### image_size
+
+* Type: `Tuple[int, int]`
+* Definition: The size of visual information of agents. (The size of RGB frames)
+* Default value: `(144, 256)`
+* Example: `image_size=(114, 514)`
+
+#### is_printing_server_info
+
+* Type: `bool`
+* Definition: Whether to output server information
+* Default value: `True`
+* Example: `is_printing_server_info=False`
+
+#### is_printing_mineflayer_info
+
+* Type: `bool`
+* Definition: Whether to output mineflayer information
+* Default value: `True`
+* Example: `is_printing_mineflayer_info=False`
 
 ## 3. Observation Space
 
-### obs
-
-### code_info
-
-### event
-
-### done
-
-### task_info
+* All information about environment and benchmark.
+* You can execute `./scripts/feature_observation_space.py` to check observation space.
 
 ## 4. Action Space (High-level)
 
+* Almost all of the mineflayer API (including pathfinder, collectBlock, etc..)
+* You can use `./scripts/action_space(high_level).py` to control the agent by entering some codes (high-level actions).
+
 ## 5. Action Space  (Low-level)
+
+* WIP

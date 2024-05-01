@@ -28,18 +28,21 @@ def make(**kwargs):
         >>> env = mineland.make("survival_multi_agent", survival_target_day=1, agents_count=2)
     '''
 
+    if 'agents_count' not in kwargs:
+        raise ValueError("agents_count must be provided in the arguments.")
+
     if 'server_host' in kwargs or 'server_port' in kwargs:
         raise ValueError("server_host and server_port should not be provided in the Task Mode!\nBecause Benchmark only works in the local environment.")
 
     if 'task_id' not in kwargs:
         raise ValueError("task_id must be provided in the arguments.")
 
-    if 'mode' not in kwargs or (kwargs['mode'] != 'cooperative' and kwargs['mode'] != 'competitive'):
+    if (kwargs['task_id'] != 'playground') and ('mode' not in kwargs or (kwargs['mode'] != 'cooperative' and kwargs['mode'] != 'competitive')):
         kwargs['mode'] = 'cooperative'
         print("task mode has been modified as cooperative")
 
     if 'agents_config' not in kwargs and not kwargs['task_id'].startswith("stage_performance"):
-        kwargs['agents_config'] = [{"name": f"MineflayerBot{i}"} for i in range(kwargs['agents_count'])]
+        kwargs['agents_config'] = [{'name': f'MineflayerBot{i}'} for i in range(kwargs['agents_count'])]
 
     if kwargs['task_id'].startswith("playground"):
         env = _make_playground(**kwargs)
@@ -305,7 +308,7 @@ def _make_construction(**kwargs):
     print(CONSTRUCTION_TASKS)
     if task_id not in CONSTRUCTION_TASKS:
         raise ValueError(f"Invalid task_id: {task_id}")
-    task = CONSTRUCTION_TASKS[task_id]
+    # task = CONSTRUCTION_TASKS[task_id]
     blueprint_file_name = task_id + "_blueprint.png"
     baseline_file_name = task_id + "_baseline.png"
     env = ConstructionTask(blueprint_file_name=blueprint_file_name, baseline_file_name=baseline_file_name, **kwargs)
