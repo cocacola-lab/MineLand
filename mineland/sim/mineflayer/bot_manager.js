@@ -420,8 +420,8 @@ runLowLevelActionByOrder = async (id, action) => {
 
     await this.bots[id].look(newPitchDegrees, newYawDegrees);
 
-    const block = this.bots[id].blockAtCursor();
-    const entity = this.bots[id].entityAtCursor();
+    const blockAtCursor = this.bots[id].blockAtCursor();
+    const entityAtCursor = this.bots[id].entityAtCursor();
     const heldItem = this.bots[id].heldItem;
 
     // Functional actions
@@ -429,11 +429,11 @@ runLowLevelActionByOrder = async (id, action) => {
     assert(Number.isInteger(action[5]), 'action[5] is not an integer')
     assert(action[5] >= 0 && action[5] <= 7, 'action[5] is out of range')
     if (action[5] === 1) {
-        if (block) {
-            await this.bots[id].activateBlock(block)
+        if (blockAtCursor) {
+            await this.bots[id].activateBlock(blockAtCursor)
         }
-        if (entity) {
-            this.bots[id].useEntity(entity, 0)
+        if (entityAtCursor) {
+            this.bots[id].useEntity(entityAtCursor, 0)
         } else if (heldItem) {
             this.bots[id].activateItem()
         }
@@ -442,7 +442,7 @@ runLowLevelActionByOrder = async (id, action) => {
             await bot.tossStack(heldItem);
         }
     } else if (action[5] === 3) {
-        if (entity) {
+        if (entityAtCursor) {
             this.bots[id].useEntity(target, 1)
         }
         bot.swingArm()
@@ -458,13 +458,35 @@ runLowLevelActionByOrder = async (id, action) => {
         }
     } else if (action[5] === 6) {
         // TODO: place
+        assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
+        assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
+        if (slotItem && blockAtCursor) {
+            bot.equip(slotItem.type, 'hand')
+            const faceVectors = [
+                new Vec3(0, 1, 0),
+                new Vec3(0, -1, 0),
+                new Vec3(1, 0, 0),
+                new Vec3(-1, 0, 0),
+                new Vec3(0, 0, 1),
+                new Vec3(0, 0, -1),
+            ];
+            let faceVector = null;
+            for (const vector of faceVectors) {
+                const block = bot.blockAt(blockAtCursor.position.minus(vector));
+                if (block?.name === "air") {
+                    faceVector = vector;
+                    break;
+                }
+            }
+            await bot.placeBlock(blockAtCursor, faceVector);
+        }
     } else if (action[5] === 7) {
         // TODO: destroy
         assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
         assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
         const slotItem = bot.inventory.slots[action[7]]
         if (slotItem) {
-            bot.activateItem()
+            bot.create.clear
         }
 
     }
