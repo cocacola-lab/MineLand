@@ -426,7 +426,7 @@ runLowLevelActionByOrder = async (id, action) => {
     const heldItem = this.bots[id].heldItem;
 
     // Functional actions
-    // 0: noop, 1: use, 2: drop, 3: attack, 4: craft, 5: equip, 6: place, 7: destroy
+    // 0: noop, 1: use, 2: drop, 3: attack, 4: craft, 5: equip, 6: place, 7: destroy, 8: dig, 9: stop digging
     if (action[5] === 1) {
         if (blockAtCursor) {
             await this.bots[id].activateBlock(blockAtCursor)
@@ -456,23 +456,6 @@ runLowLevelActionByOrder = async (id, action) => {
         // TODO: place
         const slotItem = this.bots[id].inventory.slots[action[7]]
         if (slotItem && blockAtCursor) {
-            this.bots[id].equip(slotItem.type, 'hand')
-            const faceVectors = [
-                new Vec3(0, 1, 0),
-                new Vec3(0, -1, 0),
-                new Vec3(1, 0, 0),
-                new Vec3(-1, 0, 0),
-                new Vec3(0, 0, 1),
-                new Vec3(0, 0, -1),
-            ];
-            let faceVector = null;
-            for (const vector of faceVectors) {
-                const block = this.bots[id].blockAt(blockAtCursor.position.minus(vector));
-                if (block?.name !== "air") {
-                    faceVector = vector;
-                    break;
-                }
-            }
             try {
                 // await this.bots[id].placeBlock(blockAtCursor, faceVector);
                 await this.bots[id].activateBlock(blockAtCursor);
@@ -484,6 +467,16 @@ runLowLevelActionByOrder = async (id, action) => {
         // TODO: destroy
         await this.bots[id].creative.clearSlot(action[7]);
 
+    } else if (action[5] === 8) {
+        if (blockAtCursor) {
+            try {
+                await this.bots[id].dig(blockAtCursor)
+            } catch (e) {
+                console.log("when bot", id, "digging, error: ", e)
+            }
+        }
+    } else if (action[5] === 9) {
+        this.bots[id].stopDigging()
     }
 
 }
