@@ -19,6 +19,7 @@ const {
     XYZCoordinates, SafeBlock, GoalPlaceBlockOptions,
 } = require("mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
+const { assert } = require('console');
 const collectBlock = require("mineflayer-collectblock-colalab").plugin;
 
 // basic functions that ai can use
@@ -367,6 +368,79 @@ runCodeByName = async(name, code) => {
         }
     }
 }
+
+setMovementControl(bot, action, directions) {
+    directions.forEach((direction, index) => {
+        bot.setControlState(direction, action === index + 1);
+    });
+}
+
+runLowLevelActionByOrder = async (id, action) => {
+
+    // Forward and backward
+    // 0: noop, 1: forward, 2: back
+    const forwardBack = ['forward', 'back'];
+    assert(!Number.isInteger(action[0]))
+    assert(action[0] < 0 || action[0] > 2)
+    setMovementControl(this.bots[id], action[0], forwardBack);
+
+    // Move left and right
+    // 0: noop, 1: move left, 2: move right
+    const leftRight = ['left', 'right'];
+    assert(!Number.isInteger(action[1]))
+    assert(action[1] < 0 || action[1] > 2)
+    setMovementControl(this.bots[id], action[1], leftRight);
+
+    // Jump, sneak, and sprint
+    // 0: noop, 1: jump, 2: sneak, 3:sprint
+    const jumpSneakSprint = ['jump', 'sneak', 'sprint'];
+    assert(!Number.isInteger(action[2]))
+    assert(action[2] < 0 || action[2] > 3)
+    setMovementControl(this.bots[id], action[2], jumpSneakSprint);
+
+    
+    const currentPitch = this.bots[id].entity.pitch
+    const currentYaw = this.bots[id].entity.yaw
+
+    // Camera delta pitch
+    // 0: -180 degree, 24: 180 degree
+    assert(!Number.isInteger(action[3]))
+    assert(action[3] < 0 || action[3] > 24)
+    const deltaPitchDegrees = (action[3] - 12) * 15;
+    const deltaPitchRadians = deltaPitchDegrees * (Math.PI / 180);
+    const newPitchDegrees = currentPitch + deltaPitchRadians;
+
+    // Camera delta yaw
+    // 0: -180 degree, 24: 180 degree
+    assert(!Number.isInteger(action[4]))
+    assert(action[4] < 0 || action[4] > 24)
+    const deltaYawDegrees = (action[4] - 12) * 15;
+    const deltaYawRadians = deltaYawDegrees * (Math.PI / 180);
+    const newYawDegrees = currentYaw + deltaYawRadians;
+
+    await this.bots[id].look(newPitchDegrees, newYawDegrees);
+
+    const block = this.bots[id].blockAtCursor();
+    const entity = this.bots[id].entityAtCursor();
+    const heldItem = this.bots[id].heldItem;
+
+    // Functional actions
+    // 0: noop, 1: use, 2: drop, 3: attack, 4: craft, 5: equip, 6: place, 7: destroy
+    assert(!Number.isInteger(action[5]))
+    assert(action[5] < 0 || action[5] > 7)
+    if (action[5] === 1) {
+        if (block) {
+            await this.bots[id].activateBlock(block)
+        }
+        if (entity) {
+            this.bots[id].useEntity(entity, 0)
+        } else if (heldItem) {
+            this.bots[id].activateItem()
+        }
+    }
+
+}
+
 clearCodeErorrs = () => {
     for(let i = 0; i < this.bots.length; ++i) {
         if (!this.bots[i].mineland_is_active) continue
