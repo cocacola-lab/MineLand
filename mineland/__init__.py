@@ -14,3 +14,5 @@ from .sim import Event
 from .sim import TaskInfo
 
 from .alex import Alex
+
+from . import utils

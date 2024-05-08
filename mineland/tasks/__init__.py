@@ -36,10 +36,11 @@ def make(**kwargs):
 
     if 'task_id' not in kwargs:
         raise ValueError("task_id must be provided in the arguments.")
-
-    if (kwargs['task_id'] != 'playground') and ('mode' not in kwargs or (kwargs['mode'] != 'cooperative' and kwargs['mode'] != 'competitive')):
-        kwargs['mode'] = 'cooperative'
-        print("task mode has been modified as cooperative")
+    
+    def add_mode_argument():
+        if 'mode' not in kwargs or (kwargs['mode'] != 'cooperative' and kwargs['mode'] != 'competitive'):
+            kwargs['mode'] = 'cooperative'
+            print("task mode has been modified as cooperative")
 
     if 'agents_config' not in kwargs and not kwargs['task_id'].startswith("stage_performance"):
         kwargs['agents_config'] = [{'name': f'MineflayerBot{i}'} for i in range(kwargs['agents_count'])]
@@ -47,16 +48,21 @@ def make(**kwargs):
     if kwargs['task_id'].startswith("playground"):
         env = _make_playground(**kwargs)
     elif kwargs['task_id'].startswith("survival") :
+        add_mode_argument()
         env = _make_survival(**kwargs)
     elif kwargs['task_id'].startswith("harvest"):
+        add_mode_argument()
         env = _make_harvest(**kwargs)
     elif kwargs['task_id'].startswith("techtree"):
+        add_mode_argument()
         env = _make_techtree(**kwargs)
     elif kwargs['task_id'].startswith("combat"):
         env = _make_combat(**kwargs)
     elif kwargs['task_id'].startswith("playthrough"):
+        add_mode_argument()
         env = _make_playthrough(**kwargs)
     elif kwargs['task_id'].startswith("creative"):
+        add_mode_argument()
         env = _make_creative(**kwargs)
     elif kwargs['task_id'].startswith("construction"):
         env = _make_construction(**kwargs)
@@ -308,10 +314,12 @@ def _make_construction(**kwargs):
     print(CONSTRUCTION_TASKS)
     if task_id not in CONSTRUCTION_TASKS:
         raise ValueError(f"Invalid task_id: {task_id}")
-    # task = CONSTRUCTION_TASKS[task_id]
+    task = CONSTRUCTION_TASKS[task_id]
+    goal = task["goal"]
+
     blueprint_file_name = task_id + "_blueprint.png"
     baseline_file_name = task_id + "_baseline.png"
-    env = ConstructionTask(blueprint_file_name=blueprint_file_name, baseline_file_name=baseline_file_name, **kwargs)
+    env = ConstructionTask(blueprint_file_name=blueprint_file_name, baseline_file_name=baseline_file_name, goal=goal, **kwargs)
     return env
 
 def _make_stage_performance(**kwargs):
