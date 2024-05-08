@@ -83,6 +83,16 @@ app.post("/step_pre", (req, res) => {
             if (!bot_manager.getBotIsActive(i)) continue;
 
             console.log("Low Level Action: ", req.body.action[i])
+
+            // TODO
+            // 1. iterate action[0..7]
+            let actionList = req.body.action[i];
+            bot_manager.runLowLevelActionByOrder(i, actionList)
+            // 2. execute actions in action[i]
+            // - call a func
+
+            // 3. In another file, low-level-action-utils.js
+            // - implement a lot of functions
         }
     } else {
         for(let i = 0; i < bots_count; i++) {

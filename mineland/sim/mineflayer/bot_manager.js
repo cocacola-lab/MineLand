@@ -19,6 +19,7 @@ const {
     XYZCoordinates, SafeBlock, GoalPlaceBlockOptions,
 } = require("mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
+const { assert } = require('console');
 const collectBlock = require("mineflayer-collectblock-colalab").plugin;
 
 // basic functions that ai can use
@@ -367,6 +368,128 @@ runCodeByName = async(name, code) => {
         }
     }
 }
+
+setMovementControl(bot, action, directions) {
+    directions.forEach((direction, index) => {
+        bot.setControlState(direction, action === index + 1);
+    });
+}
+
+runLowLevelActionByOrder = async (id, action) => {
+
+    // Forward and backward
+    // 0: noop, 1: forward, 2: back
+    const forwardBack = ['forward', 'back'];
+    assert(Number.isInteger(action[0]), 'action[0] is not an integer')
+    assert(action[0] >= 0 && action[0] <= 2, 'action[0] is out of range')
+    setMovementControl(this.bots[id], action[0], forwardBack);
+
+    // Move left and right
+    // 0: noop, 1: move left, 2: move right
+    const leftRight = ['left', 'right'];
+    assert(Number.isInteger(action[1]), 'action[1] is not an integer')
+    assert(action[1] >= 0 && action[1] <= 2, 'action[1] is out of range')
+    setMovementControl(this.bots[id], action[1], leftRight);
+
+    // Jump, sneak, and sprint
+    // 0: noop, 1: jump, 2: sneak, 3:sprint
+    const jumpSneakSprint = ['jump', 'sneak', 'sprint'];
+    assert(Number.isInteger(action[2]), 'action[2] is not an integer')
+    assert(action[2] >= 0 && action[2] <= 3, 'action[2] is out of range')
+    setMovementControl(this.bots[id], action[2], jumpSneakSprint);
+
+    
+    const currentPitch = this.bots[id].entity.pitch
+    const currentYaw = this.bots[id].entity.yaw
+
+    // Camera delta pitch
+    // 0: -180 degree, 24: 180 degree
+    assert(Number.isInteger(action[3]), 'action[3] is not an integer')
+    assert(action[3] >= 0 && action[3] <= 24, 'action[3] is out of range')
+    const deltaPitchDegrees = (action[3] - 12) * 15;
+    const deltaPitchRadians = deltaPitchDegrees * (Math.PI / 180);
+    const newPitchDegrees = currentPitch + deltaPitchRadians;
+
+    // Camera delta yaw
+    // 0: -180 degree, 24: 180 degree
+    assert(Number.isInteger(action[4]), 'action[4] is not an integer')
+    assert(action[4] >= 0 && action[4] <= 24, 'action[4] is out of range')
+    const deltaYawDegrees = (action[4] - 12) * 15;
+    const deltaYawRadians = deltaYawDegrees * (Math.PI / 180);
+    const newYawDegrees = currentYaw + deltaYawRadians;
+
+    await this.bots[id].look(newPitchDegrees, newYawDegrees);
+
+    const blockAtCursor = this.bots[id].blockAtCursor();
+    const entityAtCursor = this.bots[id].entityAtCursor();
+    const heldItem = this.bots[id].heldItem;
+
+    // Functional actions
+    // 0: noop, 1: use, 2: drop, 3: attack, 4: craft, 5: equip, 6: place, 7: destroy
+    assert(Number.isInteger(action[5]), 'action[5] is not an integer')
+    assert(action[5] >= 0 && action[5] <= 7, 'action[5] is out of range')
+    if (action[5] === 1) {
+        if (blockAtCursor) {
+            await this.bots[id].activateBlock(blockAtCursor)
+        }
+        if (entityAtCursor) {
+            this.bots[id].useEntity(entityAtCursor, 0)
+        } else if (heldItem) {
+            this.bots[id].activateItem()
+        }
+    } else if (action[5] === 2) {
+        if (heldItem) {
+            await this.bots[id].tossStack(heldItem);
+        }
+    } else if (action[5] === 3) {
+        if (entityAtCursor) {
+            this.bots[id].useEntity(target, 1)
+        }
+        this.bots[id].swingArm()
+    } else if (action[5] === 4) {
+        // TODO: craft
+    } else if (action[5] === 5) {
+        // TODO: equip
+        assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
+        assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
+        const slotItem = bot.inventory.slots[action[7]]
+        if (slotItem) {
+            this.bots[id].equip(slotItem.type, 'hand')
+        }
+    } else if (action[5] === 6) {
+        // TODO: place
+        assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
+        assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
+        if (slotItem && blockAtCursor) {
+            this.bots[id].equip(slotItem.type, 'hand')
+            const faceVectors = [
+                new Vec3(0, 1, 0),
+                new Vec3(0, -1, 0),
+                new Vec3(1, 0, 0),
+                new Vec3(-1, 0, 0),
+                new Vec3(0, 0, 1),
+                new Vec3(0, 0, -1),
+            ];
+            let faceVector = null;
+            for (const vector of faceVectors) {
+                const block = bot.blockAt(blockAtCursor.position.minus(vector));
+                if (block?.name === "air") {
+                    faceVector = vector;
+                    break;
+                }
+            }
+            await this.bots[id].placeBlock(blockAtCursor, faceVector);
+        }
+    } else if (action[5] === 7) {
+        // TODO: destroy
+        assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
+        assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
+        await this.bots[id].creative.clearSlot(action[7]);
+
+    }
+
+}
+
 clearCodeErorrs = () => {
     for(let i = 0; i < this.bots.length; ++i) {
         if (!this.bots[i].mineland_is_active) continue
