@@ -1,6 +1,6 @@
 import mineland
 
-AGENTS_COUNT = 2
+AGENTS_COUNT = 1
 AGENTS_CONFIG = [{"name": f"MineflayerBot{i}"} for i in range(AGENTS_COUNT)]
 
 def print_obs(obs):
@@ -35,11 +35,17 @@ mland = mineland.make(
 obs = mland.reset()
 for i in range(5000):
 
-    # act = mineland.LowLevelAction.no_op(AGENTS_COUNT)
-    act = mineland.LowLevelAction.random_op(AGENTS_COUNT)
+    act = mineland.LowLevelAction.no_op(AGENTS_COUNT)
+    # act = mineland.LowLevelAction.random_op(AGENTS_COUNT)
+    act[0][0] = int(input('Enter action 0: '))
+    act[0][1] = int(input('Enter action 1: '))
+    act[0][2] = int(input('Enter action 2: '))
+    act[0][3] = int(input('Enter action 3: '))
+    act[0][4] = int(input('Enter action 4: '))
+    act[0][5] = int(input('Enter action 5: '))
+    act[0][6] = int(input('Enter action 6: '))
+    act[0][7] = int(input('Enter action 7: '))
 
-    act[0][1] = 1
-    act[1][3] = 24
 
     obs, code_info, event, done, task_info = mland.step(action=act)
 
