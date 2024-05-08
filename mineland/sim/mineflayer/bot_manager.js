@@ -439,13 +439,13 @@ runLowLevelActionByOrder = async (id, action) => {
         }
     } else if (action[5] === 2) {
         if (heldItem) {
-            await bot.tossStack(heldItem);
+            await this.bots[id].tossStack(heldItem);
         }
     } else if (action[5] === 3) {
         if (entityAtCursor) {
             this.bots[id].useEntity(target, 1)
         }
-        bot.swingArm()
+        this.bots[id].swingArm()
     } else if (action[5] === 4) {
         // TODO: craft
     } else if (action[5] === 5) {
@@ -454,14 +454,14 @@ runLowLevelActionByOrder = async (id, action) => {
         assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
         const slotItem = bot.inventory.slots[action[7]]
         if (slotItem) {
-            bot.equip(slotItem.type, 'hand')
+            this.bots[id].equip(slotItem.type, 'hand')
         }
     } else if (action[5] === 6) {
         // TODO: place
         assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
         assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
         if (slotItem && blockAtCursor) {
-            bot.equip(slotItem.type, 'hand')
+            this.bots[id].equip(slotItem.type, 'hand')
             const faceVectors = [
                 new Vec3(0, 1, 0),
                 new Vec3(0, -1, 0),
@@ -478,16 +478,13 @@ runLowLevelActionByOrder = async (id, action) => {
                     break;
                 }
             }
-            await bot.placeBlock(blockAtCursor, faceVector);
+            await this.bots[id].placeBlock(blockAtCursor, faceVector);
         }
     } else if (action[5] === 7) {
         // TODO: destroy
         assert(Number.isInteger(action[7]), 'Slot index must be an integer.')
         assert(action[7] >= 0 && action[7] <= 35, 'Slot index must be between 0 and 35.')
-        const slotItem = bot.inventory.slots[action[7]]
-        if (slotItem) {
-            bot.create.clear
-        }
+        await this.bots[id].creative.clearSlot(action[7]);
 
     }
 
