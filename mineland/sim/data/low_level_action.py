@@ -5,7 +5,7 @@ class LowLevelAction:
     def __init__(self):
         self.data = [0 for _ in range(8)]
         self.min = [0 for _ in range(8)]
-        self.max = [2, 2, 3, 24, 24, 7, 243, 35] # -1 means wip
+        self.max = [2, 2, 3, 24, 24, 7, 243, 45] # -1 means wip
     
     def __getitem__(self, key):
         return self.data[key]

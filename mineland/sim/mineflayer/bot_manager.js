@@ -408,6 +408,17 @@ runLowLevelActionByOrder = async (id, action) => {
     const deltaYawRadians = deltaYawDegrees * (Math.PI / 180);
     const newYawDegrees = currentYaw + deltaYawRadians;
 
+
+    // console.log("currentYaw", currentYaw);
+    // console.log("currentPitch", currentPitch);
+    // console.log("deltaYawDegrees", deltaYawDegrees);
+    // console.log("deltaYawRadians", deltaYawRadians);
+    // console.log("deltaPitchDegrees", deltaPitchDegrees);
+    // console.log("deltaPitchRadians", deltaPitchRadians);
+    // console.log("newYawDegrees", newYawDegrees);
+    // console.log("newPitchDegrees", newPitchDegrees);
+
+
     await this.bots[id].look(newYawDegrees, newPitchDegrees);
 
     const blockAtCursor = this.bots[id].blockAtCursor();
@@ -438,12 +449,13 @@ runLowLevelActionByOrder = async (id, action) => {
         // TODO: craft
     } else if (action[5] === 5) {
         // TODO: equip
-        const slotItem = bot.inventory.slots[action[7]]
+        const slotItem = this.bots[id].inventory.slots[action[7]]
         if (slotItem) {
             this.bots[id].equip(slotItem.type, 'hand')
         }
     } else if (action[5] === 6) {
         // TODO: place
+        const slotItem = this.bots[id].inventory.slots[action[7]]
         if (slotItem && blockAtCursor) {
             this.bots[id].equip(slotItem.type, 'hand')
             const faceVectors = [
@@ -456,13 +468,17 @@ runLowLevelActionByOrder = async (id, action) => {
             ];
             let faceVector = null;
             for (const vector of faceVectors) {
-                const block = bot.blockAt(blockAtCursor.position.minus(vector));
-                if (block?.name === "air") {
+                const block = this.bots[id].blockAt(blockAtCursor.position.minus(vector));
+                if (block?.name !== "air") {
                     faceVector = vector;
                     break;
                 }
             }
-            await this.bots[id].placeBlock(blockAtCursor, faceVector);
+            try {
+                await this.bots[id].placeBlock(blockAtCursor, faceVector);
+            } catch (e) {
+                console.log(e)
+            }
         }
     } else if (action[5] === 7) {
         // TODO: destroy
