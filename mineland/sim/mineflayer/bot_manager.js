@@ -430,8 +430,7 @@ runLowLevelActionByOrder = async (id, action) => {
     if (action[5] === 1) {
         if (blockAtCursor) {
             await this.bots[id].activateBlock(blockAtCursor)
-        }
-        if (entityAtCursor) {
+        } else if (entityAtCursor) {
             this.bots[id].useEntity(entityAtCursor, 0)
         } else if (heldItem) {
             this.bots[id].activateItem()
@@ -475,7 +474,8 @@ runLowLevelActionByOrder = async (id, action) => {
                 }
             }
             try {
-                await this.bots[id].placeBlock(blockAtCursor, faceVector);
+                // await this.bots[id].placeBlock(blockAtCursor, faceVector);
+                await this.bots[id].activateBlock(blockAtCursor);
             } catch (e) {
                 console.log(e)
             }
