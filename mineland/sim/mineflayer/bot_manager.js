@@ -408,7 +408,7 @@ runLowLevelActionByOrder = async (id, action) => {
     const deltaYawRadians = deltaYawDegrees * (Math.PI / 180);
     const newYawDegrees = currentYaw + deltaYawRadians;
 
-    await this.bots[id].look(newPitchDegrees, newYawDegrees);
+    await this.bots[id].look(newYawDegrees, newPitchDegrees);
 
     const blockAtCursor = this.bots[id].blockAtCursor();
     const entityAtCursor = this.bots[id].entityAtCursor();
