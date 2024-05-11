@@ -12,7 +12,7 @@ AGENTS_CONFIG = [
     {"name": "MineflayerBot0"},
 ]
 
-task_id = "harvest_1_white_wool_with_1_iron_sword"
+task_id = "survival_0.01_days"
 
 save_path = f"./storage/{task_id}"
 if not os.path.exists(save_path):
@@ -25,6 +25,7 @@ def wrapper(obs, code_info, event, done, task_info):
     return obs, code_info, done, task_info
 
 def save_env(iteration, obs, code_info, done, task_info, action):
+    return
     observation = ""
     observation += f"\n\nstep: {iteration}\n"
     observation += f"obs: \n{str(obs)}\n"
@@ -55,7 +56,8 @@ def main():
     iteration = 0
 
     obs = mineLand.reset()
-    act = [{ "type": mineland.Action.RESUME, "code": ''}]
+    # act = [{ "type": mineland.Action.RESUME, "code": ''}]
+    act = mineland.Action.no_op(AGENTS_COUNT)
 
     a = input(f"\n\n[Alex] {cyan_text('teleport the bot to the task location')}\n\n")
 
@@ -67,7 +69,8 @@ def main():
         # print("step finished")
 
         if i == 0:
-            act = [{ "type": mineland.Action.RESUME, "code": ''}]
+            # act = [{ "type": mineland.Action.RESUME, "code": ''}]
+            act = mineland.Action.no_op(AGENTS_COUNT)
 
         else:
             print(f"[Alex] {cyan_text(f'=================== step{i} =================== ')}")
@@ -80,9 +83,10 @@ def main():
                 save_env(iteration, obs[0], code_info[0], done, task_info, action)
                 break
         
-        if act != [{ "type": mineland.Action.RESUME, "code": ''}]:
+        # if act != [{ "type": mineland.Action.RESUME, "code": ''}]:
+        if not all(action.type == mineland.Action.RESUME for action in act):
             iteration += 1
-            save_env(iteration, obs[0], code_info[0], done, task_info, action["code"])
+            save_env(iteration, obs[0], code_info[0], done, task_info, act[0].code)
             a = input("continue?\n")
 
     with open(f"{save_path}/log.txt", "a+") as f:

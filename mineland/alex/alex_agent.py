@@ -7,8 +7,8 @@ from .. import Action
 
 class Alex:
     def __init__(self,
-                llm_model_name = "gpt-4-1106-preview",
-                vlm_model_name = "gpt-4-vision-preview",
+                llm_model_name = "gpt-4-turbo",
+                vlm_model_name = "gpt-4-turbo",
                 max_tokens = 512,
                 temperature = 0,
                 save_path = "./save",
@@ -69,7 +69,8 @@ class Alex:
 
     def execute(self, obs, description, code_info = None, critic_info = None, verbose = False):
         if description == "Code Unfinished":
-            return { "type": Action.RESUME, "code": ''}
+            # return { "type": Action.RESUME, "code": ''}
+            return Action(type=Action.RESUME, code='')
         short_term_plan = self.memory_library.retrieve_latest_short_term_plan()
         if description == "Code Failed" or description == "Code Error":
             return self.action_agent.retry(obs, short_term_plan, code_info, verbose=verbose)
