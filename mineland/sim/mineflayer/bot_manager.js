@@ -75,6 +75,7 @@ createBot = (username, host, port, version) => {
     this.code_tick.push(0)
     bot.on('spawn', () => {
         self.bots_positions.push(bot.entity.position);
+        bot.look(0, -0.5);
     })
     this.addEventListener(bot);
     this.high_level_action_code = this.loadHighLevelActionCode()
@@ -148,7 +149,7 @@ addEventListener = (bot, is_first_bot=false) => {
                     message: entity.username + ' is hurt',
                     tick: self.tick,
                 })
-            } else if (entity.type === 'mob') {
+            } else {
                 this.events[this.bots.indexOf(bot)].push({
                     type: 'entityHurt',
                     entity_type: entity.type,
@@ -234,6 +235,7 @@ addEventListener = (bot, is_first_bot=false) => {
     bot.on('death', () => {
         this.events[this.bots.indexOf(bot)].push({
             type: 'death',
+            username: bot.username,
             message: 'bot#' + bot.username + ' dead',
             tick: self.tick,
         })
@@ -431,7 +433,7 @@ runLowLevelActionByOrder = async (id, action) => {
         if (blockAtCursor) {
             await this.bots[id].activateBlock(blockAtCursor)
         } else if (entityAtCursor) {
-            this.bots[id].useEntity(entityAtCursor, 0)
+            this.bots[id].attack(entityAtCursor, false)
         } else if (heldItem) {
             this.bots[id].activateItem()
         }
@@ -441,7 +443,7 @@ runLowLevelActionByOrder = async (id, action) => {
         }
     } else if (action[5] === 3) {
         if (entityAtCursor) {
-            this.bots[id].useEntity(target, 1)
+            this.bots[id].attack(entityAtCursor, true)
         }
         this.bots[id].swingArm()
     } else if (action[5] === 4) {

@@ -87,18 +87,9 @@ class ViewerManager {
         this.image_height = image_height
 
         for (let i = 0; i < bots.length; i++) {
-            bots[i].on("spawn", async () => {
-                // await this.lock.acquire()
-                // let port = await this.tryListening(start_port)
-                // start_port = port + 1
-                mineflayerHeadless(bots[i], this.views, { viewDistance: 3, height: image_height, width: image_width })
-                // this.lock.release()
-
-                // setInterval(async() => {
-                //     // await page.screenshot({ path: `./assets/${bots[i].username}.jpg`})
-                //     this.pics[bots[i].username] = await page.screenshot({ encoding: 'base64' })
-                // }, 250)
-            })
+            mineflayerHeadless(bots[i], this.views, { viewDistance: 3, interval: 500, height: image_height, width: image_width })
+            console.log("viewer created on bot " + bots[i].username)
+            await new Promise(resolve => setTimeout(resolve, 500))
         }
     }
 

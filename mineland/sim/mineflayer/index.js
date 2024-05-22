@@ -16,7 +16,7 @@ app.listen(PORT, () => {
     console.log(`JS side listener started on port ${PORT}`);
 });
 
-app.post("/start", (req, res) => {
+app.post("/start", async (req, res) => {
     if (!req.body.agents_count || !req.body.server_host || !req.body.server_port || !req.body.minecraft_version || !req.body.agents_config) {
         return res.status(400).json({ return_code: 400, error: 'Missing required properties in the request body' });
     }
@@ -35,6 +35,7 @@ app.post("/start", (req, res) => {
 
     for(var i = 0; i < number_of_bot; i++) {
         console.log(i + " : " + configs[i].name)
+        await new Promise(resolve => setTimeout(resolve, 500))
         bot_manager.createBot(configs[i].name, server_host, server_port, version)
     }
 
@@ -43,6 +44,7 @@ app.post("/start", (req, res) => {
         console.log("Headless Mode")
     } else {
         console.log("RGB Mode: (" + req.body.image_width + ", " +req.body.image_height + ")")
+        await new Promise(resolve => setTimeout(resolve, 1000))
         bot_manager.createViewerOnAllBots(width = req.body.image_width, height = req.body.image_height)
     }
 
@@ -50,13 +52,14 @@ app.post("/start", (req, res) => {
     setTimeout(() => {
         obs = []
         for(let i = 0; i < number_of_bot; i++) {
+            console.log("Get Observation: " + i)
             obs.push(bot_manager.getBotObservation(i));
         }
         res.status(200).json({
             return_code: 200,
             observation: obs,
         })
-    }, 20000) // wait for 20 seconds to make sure all bots are spawned
+    }, 5000) // wait for 5 seconds to make sure all bots are spawned
 
 })
 
@@ -82,7 +85,7 @@ app.post("/step_pre", (req, res) => {
         for(let i = 0; i < bots_count; i++) {
             if (!bot_manager.getBotIsActive(i)) continue;
 
-            console.log("Low Level Action: ", req.body.action[i])
+            // console.log("Low Level Action: ", req.body.action[i])
 
             // TODO
             // 1. iterate action[0..7]
