@@ -175,7 +175,7 @@ Action Space (High-level) is all functions you can invoke in javascript and mine
 
 * Almost all of the mineflayer API (including pathfinder, collectBlock, etc..)
   * [Mineflayer Repo](https://github.com/PrismarineJS/mineflayer) and [Mineflayer API Docs](https://github.com/PrismarineJS/mineflayer/blob/master/docs/api.md) may be useful.
-* You can use `./scripts/action_space(high_level).py` to control the agent by entering some codes (high-level actions).
+* You can use `./scripts/action_space_high_level.py` to control the agent by entering some codes (high-level actions).
 
 ## 5. Action Space  (Low-level)
 

@@ -10,7 +10,7 @@
 
 You can check [our paper](https://arxiv.org/abs/2403.19267) for further understanding, and MineLand and Alex code is provided in this repo.
 
-Please note that our paper and code are currently a **Work In Progress** and will be undergoing continuous iterations and updates **in the coming months**. If you have any questions or suggestions, please raise them in the issues.
+Please note that our paper and code are currently a **Work In Progress** and will be undergoing continuous iterations and updates **in the coming months**. Therefore, **the API is NOT stable** and may change in the future! If you have any questions or suggestions, please raise them in the issues.
 
 # 0. Contents
 

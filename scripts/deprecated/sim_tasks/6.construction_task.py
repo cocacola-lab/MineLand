@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../..')
-
 import mineland
 from PIL import Image
 from mineland.utils import base64_to_image
@@ -15,9 +12,7 @@ def pause():
     return get_resume_action()
 
 def get_resume_action():
-    return [
-        { "type": mineland.Action.RESUME, "code": "" },
-    ]
+    return mineland.Action.no_op(1)
 
 def print_obs(obs):
     for i in range(len(obs)):
@@ -30,10 +25,10 @@ def print_code_info(code_info):
 
 def show_image():
     
-    rgb = mineland.get_camera_view()
+    rgb = mland.get_camera_view()
     rgb = base64_to_image(rgb, 320, 180)
     img1 = np.transpose(rgb, (1, 2, 0))
-    img2 = mineland.get_blueprint_np()
+    img2 = mland.get_blueprint_np()
     img2 = np.transpose(img2, (1, 2, 0))
     plt.figure(figsize=(12, 6))
 
@@ -69,20 +64,19 @@ If you don't want to continue adjusting the camera any more, input 'stop'.
         if len(d_loc) != 5 : 
             continue
         print(d_loc[0], d_loc[1], d_loc[2], d_loc[3], d_loc[4])
-        mineland.move_camera( [d_loc[0], d_loc[1], d_loc[2]], d_loc[3], d_loc[4])
+        mland.move_camera( [d_loc[0], d_loc[1], d_loc[2]], d_loc[3], d_loc[4])
 
          
 
 # ===== Make =====
-mineland = mineland.make(
+mland = mineland.make(
     task_id="construction_task_1",
     agents_count = 1,
-
-    is_printing_server_info=True,
-    is_printing_mineflayer_info=True,
+    enable_mineclip=True,
+    mineclip_ckpt_path='./mineclip_ckpt/avg.pth',
 )
 
-obs = mineland.reset()
+obs = mland.reset()
 
 agents_count = len(obs)
 agents_name = [obs[i]['name'] for i in range(agents_count)]
@@ -92,16 +86,14 @@ is_adjusting_camera = True
 for i in range(5000):
     if i > 0 and i % 20 == 0:
         print("task_info: ", task_info)
-        # mineland.env.bridge.addCameraLocation("test", [0, 0, 0], 0.2, math.pi/180.0*5.0)
-        if(is_adjusting_camera) : 
-            adjust_camera()
-    # if i == 40:
-    #     print("killing bot!")
-    #     mcc_sim.server_manager.execute("kill MineflayerBot0")
+        show_image()
+        # if(is_adjusting_camera) : 
+        #     adjust_camera()
+        # print("mineclip score: ", mland.get_score_by_mineclip())
 
     act = get_resume_action()
 
-    obs, code_info, event, done, task_info = mineland.step(action=act)
+    obs, code_info, event, done, task_info = mland.step(action=act)
 
     assert task_info is not None, "task_info should not be None"
 

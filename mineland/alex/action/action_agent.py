@@ -80,14 +80,16 @@ class ActionAgent():
                 return self.execute(obs, short_term_plan, max_tries, verbose)
             else:
                 print("parse failed")
-                return {"type": Action.RESUME, "code": ""}
+                # return {"type": Action.RESUME, "code": ""}
+                return Action(type=Action.RESUME, code="")
             
         if verbose:
             print(f"\033[31m****Action Agent****\n{response}\033[0m")
             with open(f"{self.save_path}/log.txt", "a+") as f:
                 f.write(f"****Action Agent****\n{response}\n")
         
-        act = {"type": Action.NEW, "code": response["Code"]}
+        # act = {"type": Action.NEW, "code": response["Code"]}
+        act = Action(type=Action.NEW, code=response["Code"])
         return act
     
     def retry(self, obs, short_term_plan, code_info, max_tries = 3, verbose = False):
@@ -104,14 +106,16 @@ class ActionAgent():
                 return self.retry(obs, short_term_plan, code_info, max_tries, verbose)
             else:
                 print("parse failed")
-                return {"type": Action.RESUME, "code": ""}
+                # return {"type": Action.RESUME, "code": ""}
+                return Action(type=Action.RESUME, code="")
 
         if verbose:
             print(f"\033[31m****Action Agent****\n{response}\033[0m")
             with open(f"{self.save_path}/log.txt", "a+") as f:
                 f.write(f"****Action Agent****\n{response}\n")
         
-        act = {"type": Action.NEW, "code": response["Code"]}
+        # act = {"type": Action.NEW, "code": response["Code"]}
+        act = Action(type=Action.NEW, code=response["Code"])
         return act
     
     def redo(self, obs, short_term_plan, critic_info, max_tries = 3, verbose = False):
@@ -128,12 +132,14 @@ class ActionAgent():
                 return self.redo(obs, short_term_plan, critic_info, max_tries, verbose)
             else:
                 print("parse failed")
-                return {"type": Action.RESUME, "code": ""}
+                # return {"type": Action.RESUME, "code": ""}
+                return Action(type=Action.RESUME, code="")
 
         if verbose:
             print(f"\033[31m****Action Agent****\n{response}\033[0m")
             with open(f"{self.save_path}/log.txt", "a+") as f:
                 f.write(f"****Action Agent****\n{response}\n")
         
-        act = {"type": Action.NEW, "code": response["Code"]}
+        # act = {"type": Action.NEW, "code": response["Code"]}
+        act = Action(type=Action.NEW, code=response["Code"])
         return act

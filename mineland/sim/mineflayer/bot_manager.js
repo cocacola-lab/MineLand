@@ -19,6 +19,7 @@ const {
     XYZCoordinates, SafeBlock, GoalPlaceBlockOptions,
 } = require("mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
+const { assert } = require('console');
 const collectBlock = require("mineflayer-collectblock-colalab").plugin;
 
 // basic functions that ai can use
@@ -74,6 +75,7 @@ createBot = (username, host, port, version) => {
     this.code_tick.push(0)
     bot.on('spawn', () => {
         self.bots_positions.push(bot.entity.position);
+        bot.look(0, -0.5);
     })
     this.addEventListener(bot);
     this.high_level_action_code = this.loadHighLevelActionCode()
@@ -147,7 +149,7 @@ addEventListener = (bot, is_first_bot=false) => {
                     message: entity.username + ' is hurt',
                     tick: self.tick,
                 })
-            } else if (entity.type === 'mob') {
+            } else {
                 this.events[this.bots.indexOf(bot)].push({
                     type: 'entityHurt',
                     entity_type: entity.type,
@@ -233,6 +235,7 @@ addEventListener = (bot, is_first_bot=false) => {
     bot.on('death', () => {
         this.events[this.bots.indexOf(bot)].push({
             type: 'death',
+            username: bot.username,
             message: 'bot#' + bot.username + ' dead',
             tick: self.tick,
         })
@@ -367,6 +370,119 @@ runCodeByName = async(name, code) => {
         }
     }
 }
+
+runLowLevelActionByOrder = async (id, action) => {
+
+    function setMovementControl(bot, action, directions) {
+        directions.forEach((direction, index) => {
+            bot.setControlState(direction, action === index + 1);
+        });
+    }
+
+    // Forward and backward
+    // 0: noop, 1: forward, 2: back
+    const forwardBack = ['forward', 'back'];
+    setMovementControl(this.bots[id], action[0], forwardBack);
+
+    // Move left and right
+    // 0: noop, 1: move left, 2: move right
+    const leftRight = ['left', 'right'];
+    setMovementControl(this.bots[id], action[1], leftRight);
+
+    // Jump, sneak, and sprint
+    // 0: noop, 1: jump, 2: sneak, 3:sprint
+    const jumpSneakSprint = ['jump', 'sneak', 'sprint'];
+    setMovementControl(this.bots[id], action[2], jumpSneakSprint);
+
+    
+    const currentPitch = this.bots[id].entity.pitch
+    const currentYaw = this.bots[id].entity.yaw
+
+    // Camera delta pitch
+    // 0: -180 degree, 24: 180 degree
+    const deltaPitchDegrees = (action[3] - 12) * 15;
+    const deltaPitchRadians = deltaPitchDegrees * (Math.PI / 180);
+    const newPitchDegrees = currentPitch + deltaPitchRadians;
+
+    // Camera delta yaw
+    // 0: -180 degree, 24: 180 degree
+    const deltaYawDegrees = (action[4] - 12) * 15;
+    const deltaYawRadians = deltaYawDegrees * (Math.PI / 180);
+    const newYawDegrees = currentYaw + deltaYawRadians;
+
+
+    // console.log("currentYaw", currentYaw);
+    // console.log("currentPitch", currentPitch);
+    // console.log("deltaYawDegrees", deltaYawDegrees);
+    // console.log("deltaYawRadians", deltaYawRadians);
+    // console.log("deltaPitchDegrees", deltaPitchDegrees);
+    // console.log("deltaPitchRadians", deltaPitchRadians);
+    // console.log("newYawDegrees", newYawDegrees);
+    // console.log("newPitchDegrees", newPitchDegrees);
+
+
+    await this.bots[id].look(newYawDegrees, newPitchDegrees);
+
+    const blockAtCursor = this.bots[id].blockAtCursor();
+    const entityAtCursor = this.bots[id].entityAtCursor();
+    const heldItem = this.bots[id].heldItem;
+
+    // Functional actions
+    // 0: noop, 1: use, 2: drop, 3: attack, 4: craft, 5: equip, 6: place, 7: destroy, 8: dig, 9: stop digging
+    if (action[5] === 1) {
+        if (blockAtCursor) {
+            await this.bots[id].activateBlock(blockAtCursor)
+        } else if (entityAtCursor) {
+            this.bots[id].attack(entityAtCursor, false)
+        } else if (heldItem) {
+            this.bots[id].activateItem()
+        }
+    } else if (action[5] === 2) {
+        if (heldItem) {
+            await this.bots[id].tossStack(heldItem);
+        }
+    } else if (action[5] === 3) {
+        if (entityAtCursor) {
+            this.bots[id].attack(entityAtCursor, true)
+        }
+        this.bots[id].swingArm()
+    } else if (action[5] === 4) {
+        // TODO: craft
+    } else if (action[5] === 5) {
+        // TODO: equip
+        const slotItem = this.bots[id].inventory.slots[action[7]]
+        if (slotItem) {
+            this.bots[id].equip(slotItem.type, 'hand')
+        }
+    } else if (action[5] === 6) {
+        // TODO: place
+        const slotItem = this.bots[id].inventory.slots[action[7]]
+        if (slotItem && blockAtCursor) {
+            try {
+                // await this.bots[id].placeBlock(blockAtCursor, faceVector);
+                await this.bots[id].activateBlock(blockAtCursor);
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    } else if (action[5] === 7) {
+        // TODO: destroy
+        await this.bots[id].creative.clearSlot(action[7]);
+
+    } else if (action[5] === 8) {
+        if (blockAtCursor) {
+            try {
+                await this.bots[id].dig(blockAtCursor)
+            } catch (e) {
+                console.log("when bot", id, "digging, error: ", e)
+            }
+        }
+    } else if (action[5] === 9) {
+        this.bots[id].stopDigging()
+    }
+
+}
+
 clearCodeErorrs = () => {
     for(let i = 0; i < this.bots.length; ++i) {
         if (!this.bots[i].mineland_is_active) continue

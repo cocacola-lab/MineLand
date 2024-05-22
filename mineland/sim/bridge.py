@@ -5,6 +5,7 @@ import time
 from .mineflayer_manager import MineflayerManager
 from .server_manager import ServerManager
 from .data.action import Action
+from .data.low_level_action import LowLevelAction
 from .data.observation import Observation
 from .data.code_info import CodeInfo
 from .data.event import Event
@@ -18,6 +19,7 @@ class Bridge:
 
         ticks_per_step: int,
         enable_auto_pause: bool,
+        enable_low_level_action: bool,
 
         minecraft_server_host: str,
         minecraft_server_port: int,
@@ -39,6 +41,7 @@ class Bridge:
         self.minecraft_server_port = minecraft_server_port
         self.ticks_per_step = ticks_per_step
         self.enable_auto_pause = enable_auto_pause
+        self.enable_low_level_action = enable_low_level_action
 
         self.agents_count = agents_count
         self.agents_config = agents_config
@@ -85,13 +88,15 @@ class Bridge:
 
     def step(
         self,
-        action: List[Action],
+        action: List[Union[Action, LowLevelAction]],
     ) -> Tuple[List[Observation], List[CodeInfo], List[Event]]:
+        
         res = requests.post(
             f"{self.mineflayer_host_port}/step_pre",
             json={
                 "ticks": self.ticks_per_step,
-                "action": [action.to_dict() for action in action], # List[Action], Action: {"type": int, "code": str}
+                "is_low_level_action": self.enable_low_level_action,
+                "action": [a.to_json() for a in action],
             },
             timeout=self.request_timeout,
         )

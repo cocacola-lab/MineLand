@@ -47,6 +47,7 @@ def base64_to_image(value, rgb_width, rgb_height):
     rgb = np.array(img)
     rgb = np.transpose(rgb, (2, 0, 1))
     return rgb
+
 def get_image_similarity_by_sift(image1, image2) :
     # img1 = cv2.imread(image1, cv2.IMREAD_COLOR)
     # img2 = cv2.imread(image2, cv2.IMREAD_COLOR)
