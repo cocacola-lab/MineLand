@@ -1,3 +1,5 @@
+import time
+
 from .self_check.self_check_agent import *
 from .critic.critic_agent import *
 from .brain.memory_library import *
@@ -11,19 +13,25 @@ class Alex:
                 vlm_model_name = "gpt-4-turbo",
                 max_tokens = 512,
                 temperature = 0,
-                save_path = "./save",
+                save_path = "./storage",
                 load_path = "./load",
                 FAILED_TIMES_LIMIT = 3,
-                personality = "None",):
+                bot_name = "Alex",
+                personality = "None",
+                vision = True,):
         
         self.personality = personality
         self.llm_model_name = llm_model_name
         self.vlm_model_name = vlm_model_name
         self.max_tokens = max_tokens
         self.temperature = temperature
-        self.save_path = save_path
+        self.save_path = save_path + "/" + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
         self.load_path = load_path
+        self.vision = vision
+        self.bot_name = bot_name
         self.FAILED_TIMES_LIMIT = FAILED_TIMES_LIMIT
+
+        print(f"save_path: {self.save_path}")
 
         self.self_check_agent = SelfCheckAgent(FAILED_TIMES_LIMIT=self.FAILED_TIMES_LIMIT,
                                                save_path=self.save_path,)
@@ -32,17 +40,21 @@ class Alex:
                                         model_name=self.vlm_model_name,
                                         max_tokens=self.max_tokens,
                                         temperature=self.temperature,
-                                        save_path=self.save_path,)
+                                        save_path=self.save_path,
+                                        vision=self.vision,)
         self.memory_library = MemoryLibrary(model_name=self.vlm_model_name,
                                             max_tokens=self.max_tokens,
                                             save_path=self.save_path,
                                             load_path=self.load_path,
-                                            personality=self.personality,)
+                                            personality=self.personality,
+                                            bot_name=self.bot_name,
+                                            vision=self.vision,)
         self.associative_memory = AssociativeMemory(model_name=self.vlm_model_name,
                                                     max_tokens=self.max_tokens,
                                                     temperature=self.temperature,
                                                     save_path=self.save_path,
-                                                    personality=self.personality,)
+                                                    personality=self.personality,
+                                                    vision=self.vision,)
         self.action_agent = ActionAgent(model_name=self.vlm_model_name,
                                         max_tokens=self.max_tokens * 3,
                                         temperature=self.temperature,

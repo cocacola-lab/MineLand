@@ -36,12 +36,14 @@ class MemoryLibrary:
                  skill_retrieve_limit = 5,
                  recent_chat_retrieve_limit = 7,
                  short_term_plan_retrieve_limit = 5,
-                 model_name = 'gpt-4-vision-preview',
+                 model_name = 'gpt-4-turbo',
                  max_tokens = 256,
                  temperature = 0,
                  save_path:str = "memory_library",
                  load_path:str = "memory_library",
                  personality = "None",
+                 bot_name = "Alex",
+                 vision = True,
                  ):
         
         # =================== memory library ===================
@@ -50,6 +52,8 @@ class MemoryLibrary:
         self.load_path = load_path
         self.id_to_node = dict()
         self.personality = None
+        self.bot_name = bot_name
+        self.vision = vision
         self.environment = []
         self.events = []
         self.chat = []
@@ -61,7 +65,8 @@ class MemoryLibrary:
         self.long_term_planner = LongtermPlanner(model_name=model_name, 
                                                  max_tokens=max_tokens,
                                                  temperature=temperature,
-                                                 personality=personality)
+                                                 personality=personality,
+                                                 vision=vision)
         self.viewer = Viewer(model_name=model_name, 
                              max_tokens=max_tokens,
                              temperature=temperature)
@@ -81,25 +86,25 @@ class MemoryLibrary:
         self.skill_vectordb = Chroma(
             collection_name="skill_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/skill/vectordb",
+            persist_directory=f"{self.save_path}/memory/skill/vectordb",
         )
 
         self.chat_vectordb = Chroma(
             collection_name="chat_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/chat/vectordb",
+            persist_directory=f"{self.save_path}/memory/chat/vectordb",
         )
 
         self.events_vectordb = Chroma(
             collection_name="events_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/events/vectordb",
+            persist_directory=f"{self.save_path}/memory/events/vectordb",
         )
 
         self.environment_vectordb = Chroma(
             collection_name="environment_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/environment/vectordb",
+            persist_directory=f"{self.save_path}/memory/environment/vectordb",
         )
 
         
@@ -123,8 +128,8 @@ class MemoryLibrary:
 
         for event in events:
             event_type = event["type"]
-            event_message = event["message"]
             if event_type == "chat":
+                event_message = event["message"]
                 self.add_chat(tick, day, time, event_message)
             else:
                 self.add_event(tick, day, time, event)
@@ -180,6 +185,8 @@ class MemoryLibrary:
         # retrieve event related information
         for event in events:
             query = event["message"]
+            if query.startswith(f"<{self.bot_name}>"):
+                continue
             
             if verbose:
                 print("query: " + query)
@@ -449,7 +456,7 @@ class MemoryLibrary:
         if verbose:
             print(f"\033[33mMemory Library retrieving for long term plan\033[0m")
         if self.long_term_plan:
-            return self.long_term_plan
+            return self.long_term_plan["long_term_plan"]
         else:
             return None
 

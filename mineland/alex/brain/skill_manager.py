@@ -10,7 +10,7 @@ class skillInfo(BaseModel):
 
 class SkillManager:
     def __init__(self,
-                 model_name = 'gpt-4-1106-preview',
+                 model_name = 'gpt-4-turbo',
                  max_tokens = 256,
                  temperature = 0,):
         self.model_name = model_name

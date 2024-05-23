@@ -25,10 +25,12 @@ class CriticAgent():
                  model_name = 'gpt-4-vision-preview',
                  max_tokens = 256,
                  temperature = 0,
-                 save_path = "./save",):
+                 save_path = "./save",
+                 vision = True,):
         self.FAILED_TIMES_LIMIT = FAILED_TIMES_LIMIT
         self.plan_failed_count = 0
         self.mode = mode
+        self.vision = vision
         model = ChatOpenAI(model=model_name, 
                            max_tokens=max_tokens,
                            temperature=temperature,)

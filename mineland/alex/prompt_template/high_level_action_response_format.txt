@@ -1,5 +1,5 @@
 {
   "Explain": "...",
   "Plan": "1)...,2)...,3)...,...",
-  "Code": "",
+  "Code": "do not use double backslashes in code, Just use \n directly for new lines.",
 }

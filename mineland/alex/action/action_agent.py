@@ -13,7 +13,7 @@ class ActionInfo(BaseModel):
 
 class ActionAgent():
     def __init__(self,
-                 model_name = 'gpt-4-vision-preview',
+                 model_name = 'gpt-4-turbo',
                  max_tokens = 1024,
                  temperature = 0,
                  save_path = "./save",):
