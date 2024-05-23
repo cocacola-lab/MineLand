@@ -44,7 +44,7 @@ app.post("/start", async (req, res) => {
         console.log("Headless Mode")
     } else {
         console.log("RGB Mode: (" + req.body.image_width + ", " +req.body.image_height + ")")
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 2000))
         bot_manager.createViewerOnAllBots(width = req.body.image_width, height = req.body.image_height)
     }
 

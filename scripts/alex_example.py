@@ -1,5 +1,7 @@
 '''
 This script demonstrates how to run the Alex agent in the mineland environment.
+
+please set your key in OPENAI_API_KEY environment variable before running this script.
 '''
 
 import mineland

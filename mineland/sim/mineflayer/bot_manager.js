@@ -168,7 +168,7 @@ addEventListener = (bot, is_first_bot=false) => {
                 type: 'entityDead',
                 entity_type: entity.type,
                 entity_name: entity.name,
-                message: entity.name + ' dead',
+                message: entity.displayName + ' dead',
                 tick: self.tick,
             })
         }
@@ -180,7 +180,8 @@ addEventListener = (bot, is_first_bot=false) => {
             this.events[this.bots.indexOf(bot)].push({
                 type: 'entityEat',
                 entity_type: entity.type,
-                entity_name: entity_name,
+                entity_name: entity.name,
+                message: entity.displayName + ' is eating',
                 tick: self.tick,
             })
         }
@@ -197,6 +198,7 @@ addEventListener = (bot, is_first_bot=false) => {
                 entity_type: entity.type,
                 entity_name: entity.name,
                 position: entity.position,
+                message: entity.displayName + ' has spawned',
                 tick: self.tick,
             })
         }
