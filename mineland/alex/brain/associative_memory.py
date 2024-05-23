@@ -21,13 +21,14 @@ class SpecialEventInfo(BaseModel):
 
 class AssociativeMemory:
     def __init__(self,
-                #  model_name = 'gpt-4-vision-preview',
-                 model_name = 'gpt-4-1106-preview',
+                 model_name = 'gpt-4-turbo',
                  max_tokens = 1024,
                  temperature = 0,
                  save_path = "./save",
-                 personality = "None"):
+                 personality = "None",
+                 vision = True,):
         self.personality = personality
+        self.vision = vision
         self.environment = set()
         self.events = set()
         self.chat = set()
@@ -140,7 +141,7 @@ class AssociativeMemory:
 
         content.append({"type": "text", "text": text})
 
-        if self.model_name == 'gpt-4-vision-preview':
+        if self.vision:
             try:
                 image_base64 = obs["rgb_base64"]
                 if image_base64 != "":
@@ -153,6 +154,18 @@ class AssociativeMemory:
                             })
             except:
                 print("No image in observation")
+                pass
+
+            try:
+                if task_info.rgb_base64 != "":
+                    content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{task_info.rgb_base64}",
+                            "detail": "auto",
+                        },
+                    })
+            except:
                 pass
         
         human_message = HumanMessage(content=content)
@@ -257,7 +270,7 @@ class AssociativeMemory:
 
         content.append({"type": "text", "text": text})
 
-        if self.model_name == 'gpt-4-vision-preview':
+        if self.vision:
             try:
                 image_base64 = obs["rgb_base64"]
                 if image_base64 != "":

@@ -15,20 +15,23 @@ class LongtermPlanner():
     Generate a long-term plan for the ultimate goal.
     '''
     def __init__(self,
-                 model_name = 'gpt-4-vision-preview',
+                 model_name = 'gpt-4-turbo',
                  max_tokens = 1024,
                  temperature = 0,
-                 personality = "None"):
+                 personality = "None",
+                 vision = True,):
         
         self.model_name = model_name
         self.max_tokens = max_tokens
         self.temperature = temperature
         self.personality = personality
+        self.vision = vision
 
         vlm = ChatOpenAI(
             model=model_name,
             max_tokens=max_tokens,
             temperature=temperature,
+            response_format={ "type": "json_object" },
         )
         parser = JsonOutputParser(pydantic_object=LongtermPlan)
         self.chain = vlm | parser
@@ -44,7 +47,7 @@ class LongtermPlanner():
         text += f"Personality: {self.personality} \n"
         text += f"Observation: {str(obs)}\n"
         content.append({"type": "text", "text": text})
-        if self.model_name == 'gpt-4-vision-preview':
+        if self.vision:
             try:
                 image_base64 = obs["rgb_base64"]
                 if image_base64 != "":
@@ -57,6 +60,19 @@ class LongtermPlanner():
                             })
             except:
                 print("No image in observation")
+                pass
+
+            try:
+                blueprint_base64 = task_info["rgb_base64"]
+                if blueprint_base64 != "":
+                    content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/png;base64,{blueprint_base64}",
+                            "detail": "auto",
+                        },
+                    })
+            except:
                 pass
         
         human_message = HumanMessage(content=content)
