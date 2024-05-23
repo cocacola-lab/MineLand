@@ -1,12 +1,1 @@
-Code:
-```javascript
-// helper functions (only if needed, try to avoid them)
-...
-// main function after the helper functions
-async function yourMainFunctionName(bot) {
-  // ...
-  // Under no circumstances should you call yourself within a function to form a recursive function.
-}
-// use the function
-await yourMainFunctionName(bot);
-```
+'Code': "\n// helper functions (only if needed, try to avoid them)\n...\n// main function after the helper functions\nasync function yourMainFunctionName(bot) {\n\n  // ...\n  // Under no circumstances should you call yourself within a function to form a recursive function.\n}\n// use the function\nawait yourMainFunctionName(bot);"

@@ -1,3 +1,5 @@
+import time
+
 from .self_check.self_check_agent import *
 from .critic.critic_agent import *
 from .brain.memory_library import *
@@ -23,11 +25,13 @@ class Alex:
         self.vlm_model_name = vlm_model_name
         self.max_tokens = max_tokens
         self.temperature = temperature
-        self.save_path = save_path
+        self.save_path = save_path + "/" + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
         self.load_path = load_path
         self.vision = vision
         self.bot_name = bot_name
         self.FAILED_TIMES_LIMIT = FAILED_TIMES_LIMIT
+
+        print(f"save_path: {self.save_path}")
 
         self.self_check_agent = SelfCheckAgent(FAILED_TIMES_LIMIT=self.FAILED_TIMES_LIMIT,
                                                save_path=self.save_path,)

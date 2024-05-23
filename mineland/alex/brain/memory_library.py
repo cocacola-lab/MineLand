@@ -86,25 +86,25 @@ class MemoryLibrary:
         self.skill_vectordb = Chroma(
             collection_name="skill_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/skill/vectordb",
+            persist_directory=f"{self.save_path}/memory/skill/vectordb",
         )
 
         self.chat_vectordb = Chroma(
             collection_name="chat_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/chat/vectordb",
+            persist_directory=f"{self.save_path}/memory/chat/vectordb",
         )
 
         self.events_vectordb = Chroma(
             collection_name="events_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/events/vectordb",
+            persist_directory=f"{self.save_path}/memory/events/vectordb",
         )
 
         self.environment_vectordb = Chroma(
             collection_name="environment_vectordb",
             embedding_function=OpenAIEmbeddings(),
-            persist_directory=f"{save_path}/memory/environment/vectordb",
+            persist_directory=f"{self.save_path}/memory/environment/vectordb",
         )
 
         
