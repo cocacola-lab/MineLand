@@ -28,7 +28,7 @@ You can refer to the [Installation Docs](./docs/installation.md) and [Q&A](./doc
 
 ## 1.1 Prerequisites
 
-MineLand requires Python 3.11, Node.js 18.18 and Java 17
+MineLand requires Python 3.11, Node.js 18.18.0 and Java 17
 
 ## 1.2 Installation
 
@@ -41,7 +41,9 @@ cd MineLand
 pip install -e .
 
 cd mineland/sim/mineflayer
-npm install
+npm ci
+# If you use pnpm, you can use `pnpm install` instead of `npm ci`
+# npm ci will install the dependencies from the package-lock.json file, while npm install will resolve the dependencies from the package.json file.
 ```
 
 ## 1.3 Verification
