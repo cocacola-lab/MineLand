@@ -64,7 +64,7 @@ class LongtermPlanner():
 
             try:
                 blueprint_base64 = task_info["rgb_base64"]
-                if blueprint_base64 != "":
+                if blueprint_base64 and blueprint_base64 != "":
                     content.append({
                         "type": "image_url",
                         "image_url": {
