@@ -41,7 +41,14 @@ class MineflayerManager:
             command = f"node index.js"
             args = shlex.split(command)
 
-            self.process = subprocess.Popen(args, cwd=self.path, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, text=True)
+            self.process = subprocess.Popen(
+                args,
+                cwd=self.path,
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+            )
 
             # TODO: Lack of exception handling
 
@@ -65,31 +72,34 @@ class MineflayerManager:
         print('Start to listen stdout.')
         while True and self.process:
             output = self.process.stdout.readline()
+            output_str = output.decode('utf-8', errors='ignore')
 
-            if output == '':
+            if output == '' or output.isspace() or output_str == '' or output_str.isspace():
                 continue
-            if any(substr in output for substr in self.version_not_match_filter):
+            elif any(substr in output_str for substr in self.version_not_match_filter):
                 print_error("Warning: Node.js version is not matched! Please use v18.18.2!")
 
-            if 'started' in output:
+            # Here must be an independent if statement to avoid program freezing
+            if 'started' in output_str:
                 self.is_running = True
-            print(output, end='')
+
+            print(output_str, end='')
+
         print("Mineflayer is end.")
     
     def listen_stderr(self) :
         while True and self.process:
             output = self.process.stderr.readline()
+            output_str = output.decode('utf-8', errors='ignore')
 
-            if output == '':
+            if output == '' or output.isspace() or output_str == '' or output_str.isspace():
                 continue
-            if any(substr in output for substr in self.output_filter):
+            elif any(substr in output_str for substr in self.output_filter):
                 continue
-            if output.isspace():
-                continue
-            if any(substr in output for substr in self.version_not_match_filter):
+            elif any(substr in output_str for substr in self.version_not_match_filter):
                 print_error("Warning: Node.js version is not matched! Please use v18.18.2!")
 
-            print(output, end='')
+            print(output_str, end='')
     
     def get(self, clear=True) :
         ret = self.stdout[:]
