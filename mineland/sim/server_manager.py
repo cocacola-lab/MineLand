@@ -92,7 +92,14 @@ class ServerManager:
             command = f"java -Xmx8G -jar fabric-server-mc.1.19-loader.0.14.18-launcher.0.11.2.jar nogui"
             args = shlex.split(command)
 
-            self.process = subprocess.Popen(args, cwd=self.path, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, text=True)
+            self.process = subprocess.Popen(
+                args,
+                cwd=self.path,
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE
+            )
 
             # TODO: Lack of exception handling
             
@@ -127,22 +134,24 @@ class ServerManager:
         
         while True and self.process:
             output = self.process.stdout.readline()
-
-            if 'Done' in output:
+            output_str = output.decode('utf-8', errors='ignore')
+            
+            # should be an independent if statement
+            if 'Done' in output_str:
                 self.is_running = True
-            if 'runtick command is finished now' in output:
+            if 'runtick command is finished now' in output_str:
                 self.is_runtick_finished = True
 
-            if output == '':
+            if output == '' or output.isspace() or output_str == '' or output_str.isspace():
                 continue
-            if any(substr in output for substr in self.output_filter):
+            elif any(substr in output_str for substr in self.output_filter):
                 continue
-            if any(substr in output for substr in self.another_server_is_running_filter):
+            elif any(substr in output_str for substr in self.another_server_is_running_filter):
                 print_error('Another server is running! You may need to restart MineLand.')
-            
+
             if self.is_printing_server_info:
-                print(output, end='')
-            self.outputs.append(output)
+                print(output_str, end='')
+            self.outputs.append(output_str)
 
         if self.is_printing_server_info:
             print("Server is end.")
@@ -162,8 +171,6 @@ class ServerManager:
         while not self.is_runtick_finished:
             time.sleep(self.wait_interval)
         self.is_runtick_finished = False
-    
-
 
 # manager = ServerManager()
 # result = manager.start()
