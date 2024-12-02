@@ -35,17 +35,12 @@ class StagePerformanceTask(BaseTask):
         kwargs["agents_config"] = [{"name": name} for name in agent_names]
         kwargs["agents_count"] = len(agent_names)
 
-        print(kwargs["agents_config"])
-        print(len(kwargs["agents_config"]))
-        print(type(kwargs["agents_config"]))
-        print(agent_names)
-        print(len(agent_names))
-        print(type(agent_names))
-        
-
-        print(self.guidance)
+        print("Task Id: ", kwargs["task_id"])
+        print("Agents config (after modification): ", kwargs["agents_config"])
+        print("Agents names: ", agent_names)
+        print("Guidnace: ", self.guidance)
+        print("Script: ", self.script)
         super().__init__(**kwargs)
-        print(f'stage performance \n ')
     
     def reset(self):
         obs = self.env.reset()
@@ -55,9 +50,8 @@ class StagePerformanceTask(BaseTask):
         for name, inventory in self.initial_inventory.items(): 
             for item, number in inventory.items(): 
                 self.server_manager.execute(f"give {name} {item} {number}")
-        print("finish reset!")
+        print("Finish reset!")
         return obs
-    
     
     def get_personalities(self) :
         return self.personalities
@@ -89,16 +83,12 @@ class StagePerformanceTask(BaseTask):
             if event['type'] == 'entityDead':
                 self.seq += f'combat {self.target}, '       
         for i in range(len(self.agent_names)) :
-            print(f'{self.agent_names[i]} :\n')
-            print(obs[i])
             last_inventory = last_obs[i].inventory['name']
             inventory = obs[i].inventory['name']
             #get something
             get_list = [x for x in inventory if x != None and x not in last_inventory]
             for x in get_list:
                 self.seq += f'{self.agent_names[i]} get {x}, '
-        print("seq is : " + self.seq)
-        
 
     def calc_lcs(self, s1, s2) :
         n = len(s1)
