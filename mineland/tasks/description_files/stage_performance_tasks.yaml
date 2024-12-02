@@ -95,8 +95,7 @@ stage_performance_2_agent_date:
   agent_names:
   - Bob
   - Alice
-  - Jack
-  agent_number: 3
+  agent_number: 2
   critical_point:
   - - Bob
     - chat
@@ -120,8 +119,7 @@ stage_performance_2_exchange_items:
   agent_names:
   - Bob
   - Alice
-  - Jack
-  agent_number: 3
+  agent_number: 2
   critical_point:
   - - Bob
     - chat
@@ -146,5 +144,3 @@ stage_performance_2_exchange_items:
   script: Bob has a shears, and Alice has a iron sword. Bob says I want to exchange my scissors for your iron sword. Alice agree. Bob give Alice the shears first, and then Alice give the iron sword to Bob.
   system_instructions: []
   type: stage_performance
-
-
