@@ -334,9 +334,6 @@ def _make_stage_performance(**kwargs):
     personalities = task["personalities"]
     script = task["script"]
     system_instructions = task["system_instructions"]
-    print(system_instructions)
-    print(type(system_instructions))
-    print(type(agent_names))
     env = StagePerformanceTask(agent_names=agent_names, 
                                critical_point=critical_point, 
                                initial_inventory=initial_inventory,
