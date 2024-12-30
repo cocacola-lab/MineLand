@@ -82,7 +82,7 @@ MineLand does NOT have a minecraft game client for higher efficiency. You can ob
 Environment Preview
 ![environment_preview.png](./docs/pics/environment_preview.png)
 
-# 3. Our Paper
+# 3. Citation
 
 Our paper is available on [Arxiv](https://arxiv.org/abs/2403.19267).
 
