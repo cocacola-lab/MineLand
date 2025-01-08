@@ -120,12 +120,15 @@ class ServerManager:
     def execute(self, command):
         if self.process and self.process.poll() is None:
             try:
-                self.process.stdin.write(f"{command}\n") 
+                self.process.stdin.write(f"{command}\n".encode()) 
                 self.process.stdin.flush()
+                print(f"Command '{command}' is sent successfully.")
                 return("ok")
             except Exception as e:
+                print_error(f"Command '{command}' is failed. Exception: {str(e)}")
                 return "", "Exception: " + str(e)
         else:
+            print_error(f"Command '{command}' is failed. Server is not running.")
             return "", "Server not running"
     
     def listen_outputs(self) :
