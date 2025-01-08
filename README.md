@@ -24,11 +24,15 @@ You can check [our paper](https://arxiv.org/abs/2403.19267) for further understa
 
 You can refer to the [Installation Docs](./docs/installation.md) and [Q&A](./docs/q&a.md) for more detailed installation guidelines.
 
-## 1.1 Prerequisites
+We provide two methods to install MineLand: `Direct Install` and `Docker Image`.
+
+## 1.1 Direct Install
+
+### Prerequisites
 
 MineLand requires Python 3.11, Node.js 18.18.0 and Java 17
 
-## 1.2 Installation
+### Installation
 
 We highly recommend installing MineLand in a virtual environment (such as Anaconda)
 
@@ -44,7 +48,7 @@ npm ci
 # npm ci will install the dependencies from the package-lock.json file, while npm install will resolve the dependencies from the package.json file.
 ```
 
-## 1.3 Verification
+### Verification
 
 ```bash
 cd scripts
@@ -52,6 +56,25 @@ python validate_install_simulator.py
 ```
 
 You will see `Validation passed! The simulator is installed correctly.`, if MineLand simulator installed properly.
+
+## 1.2 Docker Image
+
+```bash
+# Pull image
+docker pull yxhxianyu/mineland
+
+# Initialize a container based on image
+docker run -it -p 25565:25565 --name mineland yxhxianyu/mineland /bin/bash
+
+# Xvfb needs to be launched every time you start container
+Xvfb :1 -screen 0 1024x768x24 </dev/null &
+
+# Start MineLand
+cd /root/MineLand
+python ./scripts/validate_install_simulator.py
+```
+
+Detailed instructions in [Installation Docs - Docker](https://github.com/cocacola-lab/MineLand/blob/main/docs/installation.md#2-docker)
 
 # 2. Quick Start
 

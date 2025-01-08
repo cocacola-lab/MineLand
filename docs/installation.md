@@ -124,11 +124,11 @@ Validate java installation by executing `java -version` and the output may be `o
 git clone https://github.com/cocacola-lab/MineLand.git
 cd MineLand
 
-# Make sure you have activated `mineland` virtual environment,
-#   before executing the following command.
+conda activate mineland
 pip install -e .
 
 cd mineland/sim/mineflayer
+nvm use v18.18.2
 npm ci
 # ci means installing according to package-lock.json
 # There are lots of dependencies in node.js, which require some time to install...
@@ -154,4 +154,46 @@ export DISPLAY=":1"
 
 ## 2. Docker
 
-* TODO
+We provide a [pre-built docker image](https://hub.docker.com/r/yxhxianyu/mineland) based on `ubuntu:24.04`.
+
+You can run a docker contain according to the following steps:
+
+```bash
+# Download MineLand image
+docker pull yxhxianyu/mineland
+
+# Create a container
+docker run -it -p 25565:25565 --name mineland yxhxianyu/mineland /bin/bash
+exit
+
+# Start and enter container
+docker start mineland
+docker exec -it mineland bash -c "cd /root && exec bash"
+
+# Start xvfb for headless machine
+# Tips: This command is only needed to be executed once, every time you start container
+Xvfb :1 -screen 0 1024x768x24 </dev/null &
+
+# Start MineLand (Tips: python & node environment have both activated in .bashec)
+cd /root/MineLand
+python ./scripts/validate_install_simulator.py
+
+# After `Validation passed! The simulator is installed correctly.`,
+# you can press <ctrl+C> to exit MineLand.
+
+# Exit container
+exit
+
+# Stop container
+docker stop mineland
+```
+
+This docker image was made according to the above documentation completely. In addition, we installed `vim` and add the following configuration to `/root/.bashrc`
+
+```bash
+conda activate mineland
+nvm use v18.18.2
+export DISPLAY=":1"
+```
+
+The docker image isn't fully tested. If you encounter any problem, welcome to raise them in issues or create a PR.
