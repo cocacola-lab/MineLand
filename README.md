@@ -34,18 +34,23 @@ MineLand requires Python 3.11, Node.js 18.18.0 and Java 17
 
 ### Installation
 
-We highly recommend installing MineLand in a virtual environment (such as Anaconda)
-
 ```bash
 git clone git@github.com:cocacola-lab/MineLand.git
 cd MineLand
 
+conda create -n mineland python=3.11
+conda activate mineland
 pip install -e .
 
 cd mineland/sim/mineflayer
+nvm install v18.18.0
+nvm use v18.18.0
 npm ci
 # If you use pnpm, you can use `pnpm install` instead of `npm ci`
 # npm ci will install the dependencies from the package-lock.json file, while npm install will resolve the dependencies from the package.json file.
+
+cd ../../..
+# Back to the root directory of MineLand
 ```
 
 ### Verification
