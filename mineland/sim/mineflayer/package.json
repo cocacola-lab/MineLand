@@ -1,17 +1,31 @@
 {
+  "name": "mineland-mineflayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "body-parser": "^1.20.2",
-    "canvas": "^2.11.2",
-    "express": "^4.18.2",
-    "minecraft-data": "^3.47.0",
-    "minecrafthawkeye": "^1.3.6",
-    "mineflayer": "^4.14.0",
-    "mineflayer-collectblock-colalab": "^1.0.0",
+    "body-parser": "^1.20.3",
+    "canvas": "^3.1.0",
+    "express": "^4.21.2",
+    "minecraft-data": "^3.84.1",
+    "minecrafthawkeye": "^1.3.9",
+    "mineflayer": "^4.26.0",
+    "mineflayer-collectblock": "^1.6.0",
     "mineflayer-pathfinder": "^2.4.5",
     "mineflayer-pvp": "^1.3.2",
     "mineflayer-tool": "^1.2.0",
-    "prismarine-viewer-colalab": "^1.0.11",
-    "vec3": "^0.1.8"
+    "node-canvas-webgl": "PrismarineJS/node-canvas-webgl",
+    "prismarine-viewer": "^1.33.0",
+    "vec3": "^0.1.10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "canvas",
+      "gl"
+    ]
   }
 }

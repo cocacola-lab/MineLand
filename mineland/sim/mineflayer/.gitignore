@@ -1,5 +1,7 @@
-# Customized
+
+# === Customized ===
 assets/
+/output.mp4
 
 # Dependency directories
 node_modules/

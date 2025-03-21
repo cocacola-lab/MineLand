@@ -1,17 +1,19 @@
+// Imports
 const bodyParser = require("body-parser");
 const Vec3 = require("vec3");
-
 const express = require("express");
+const BotManager = require("./src/bot_manager");
 
-const PORT = 21301;
+// Global Variables
 const app = express();
-
-const BotManager = require("./bot_manager");
 const bot_manager = new BotManager()
 
+// Express Config
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 
+// Express Routes
+const PORT = 21301;
 app.listen(PORT, () => {
     console.log(`JS side listener started on port ${PORT}`);
 });

@@ -1,4 +1,3 @@
-const { viewer } = require("prismarine-viewer-colalab")
 const ViewerManager = require("./viewer_manager");
 const { Vec3 } = require("vec3");
 

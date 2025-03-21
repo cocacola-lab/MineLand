@@ -7,7 +7,7 @@ const ObservationUtils = require("./observation_utils");
 const ViewerManager = require("./viewer_manager");
 const pvp = require("mineflayer-pvp").plugin;
 const tool = require("mineflayer-tool").plugin;
-const minecraftHawkEye = require("minecrafthawkeye");
+const minecraftHawkEye = require("minecrafthawkeye").default;
 const {
     Movements,
     goals: {
@@ -20,7 +20,8 @@ const {
 } = require("mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
 const { assert } = require('console');
-const collectBlock = require("mineflayer-collectblock-colalab").plugin;
+// const collectBlock = require("mineflayer-collectblock-colalab").plugin;
+const collectBlock = require("mineflayer-collectblock").plugin;
 
 // basic functions that ai can use
 let filePathPrefix = '../../assets/high_level_action/'

@@ -1,8 +1,11 @@
 const net = require('net');
 // const puppeteer = require('puppeteer');
 // const mineflayerViewer = require('prismarine-viewer-colalab').mineflayer;
-const mineflayerHeadless = require('prismarine-viewer-colalab').headless;
-const mineflayerFreecamera = require('prismarine-viewer-colalab').freecamera;
+// const mineflayerHeadless = require('prismarine-viewer-colalab').headless;
+// const mineflayerFreecamera = require('prismarine-viewer-colalab').freecamera;
+
+const mineflayerHeadless = require('prismarine-viewer').headless;
+// const mineflayerFreecamera = require('prismarine-viewer-colalab').freecamera;
 
 /**
  * A normal mutex lock class.
@@ -116,7 +119,10 @@ class ViewerManager {
         // get lock to request a port
         // await this.lock.acquire()
         // let port = await this.tryListening(start_port)
-        this.cameras[camera_id] = mineflayerFreecamera(bot, { viewDistance: 3, height: image_height, width: image_width })
+
+        // FIXME: need to be refactored
+        // this.cameras[camera_id] = mineflayerFreecamera(bot, { viewDistance: 3, height: image_height, width: image_width })
+
         // this.lock.release()
 
         this.cameras_loc[camera_id] = {
