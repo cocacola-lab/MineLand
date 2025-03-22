@@ -1,6 +1,6 @@
 {
   "references": [
-    { "path": "./3rdparty/mineflayer-collectblock" }
+    { "path": "./src/lib/uncompiled/mineflayer-collectblock" }
   ],
   "include": [
     "src/*.js",

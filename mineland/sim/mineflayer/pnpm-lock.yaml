@@ -29,15 +29,12 @@ importers:
       mineflayer:
         specifier: ^4.26.0
         version: 4.26.0(encoding@0.1.13)
-      mineflayer-pathfinder:
-        specifier: ^2.4.5
-        version: 2.4.5(prismarine-registry@1.11.0)
       mineflayer-pvp:
         specifier: ^1.3.2
         version: 1.3.2(encoding@0.1.13)(prismarine-registry@1.11.0)
       mineflayer-tool:
         specifier: ^1.2.0
-        version: 1.2.0(encoding@0.1.13)(prismarine-registry@1.11.0)
+        version: 1.2.0(encoding@0.1.13)
       node-canvas-webgl:
         specifier: PrismarineJS/node-canvas-webgl
         version: https://codeload.github.com/PrismarineJS/node-canvas-webgl/tar.gz/c183e0a8e5ad8bdc2f1e4f3c1ba0b2592ad952f0
@@ -50,6 +47,12 @@ importers:
       prismarine-item:
         specifier: ^1.16.0
         version: 1.16.0
+      prismarine-nbt:
+        specifier: ^2.7.0
+        version: 2.7.0
+      prismarine-physics:
+        specifier: ^1.10.0
+        version: 1.10.0
       prismarine-viewer:
         specifier: ^1.33.0
         version: 1.33.0(prismarine-registry@1.11.0)
@@ -60,9 +63,6 @@ importers:
       '@types/node':
         specifier: ^22.13.11
         version: 22.13.11
-      require-self:
-        specifier: ^0.2.3
-        version: 0.2.3
       ts-standard:
         specifier: ^12.0.2
         version: 12.0.2(typescript@5.8.2)
@@ -3974,7 +3974,7 @@ snapshots:
       uuid: 9.0.1
       vec3: 0.1.10
 
-  mineflayer-pathfinder@2.4.5(prismarine-registry@1.11.0):
+  mineflayer-pathfinder@2.4.5:
     dependencies:
       minecraft-data: 3.84.1
       prismarine-block: 1.21.0(prismarine-registry@1.11.0)
@@ -3983,27 +3983,24 @@ snapshots:
       prismarine-nbt: 2.7.0
       prismarine-physics: 1.10.0
       vec3: 0.1.10
-    transitivePeerDependencies:
-      - prismarine-registry
 
   mineflayer-pvp@1.3.2(encoding@0.1.13)(prismarine-registry@1.11.0):
     dependencies:
       mineflayer: 4.26.0(encoding@0.1.13)
-      mineflayer-pathfinder: 2.4.5(prismarine-registry@1.11.0)
+      mineflayer-pathfinder: 2.4.5
       mineflayer-utils: 0.1.4(encoding@0.1.13)(prismarine-registry@1.11.0)
     transitivePeerDependencies:
       - encoding
       - prismarine-registry
       - supports-color
 
-  mineflayer-tool@1.2.0(encoding@0.1.13)(prismarine-registry@1.11.0):
+  mineflayer-tool@1.2.0(encoding@0.1.13):
     dependencies:
       mineflayer: 4.26.0(encoding@0.1.13)
-      mineflayer-pathfinder: 2.4.5(prismarine-registry@1.11.0)
+      mineflayer-pathfinder: 2.4.5
       prismarine-nbt: 2.7.0
     transitivePeerDependencies:
       - encoding
-      - prismarine-registry
       - supports-color
 
   mineflayer-utils@0.1.4(encoding@0.1.13)(prismarine-registry@1.11.0):

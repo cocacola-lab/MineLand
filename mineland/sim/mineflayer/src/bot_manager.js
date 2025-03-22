@@ -17,7 +17,7 @@ const {
     pathfinder,
     Move, ComputedPath, PartiallyComputedPath, ZCoordinates,
     XYZCoordinates, SafeBlock, GoalPlaceBlockOptions,
-} = require("mineflayer-pathfinder");
+} = require("./lib/mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
 const { assert } = require('console');
 

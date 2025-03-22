@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "../../src/lib/mineflayer-collectblock",
+    "outDir": "../../mineflayer-collectblock",
     "composite": true,
     "declarationMap": false,
 
