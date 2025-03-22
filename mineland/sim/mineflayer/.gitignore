@@ -2,6 +2,8 @@
 # === Customized ===
 assets/
 /output.mp4
+# Ignore 3rdparty build results
+/src/lib/
 
 # Dependency directories
 node_modules/

@@ -1,0 +1,9 @@
+{
+  "references": [
+    { "path": "./3rdparty/mineflayer-collectblock" }
+  ],
+  "include": [
+    "src/*.js",
+    "!3rdparty/**/*"
+  ]
+}

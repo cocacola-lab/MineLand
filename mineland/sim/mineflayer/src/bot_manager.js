@@ -20,8 +20,8 @@ const {
 } = require("mineflayer-pathfinder");
 const { Vec3 } = require('vec3');
 const { assert } = require('console');
-// const collectBlock = require("mineflayer-collectblock-colalab").plugin;
-const collectBlock = require("mineflayer-collectblock").plugin;
+
+const collectBlock = require("./lib/mineflayer-collectblock").plugin;
 
 // basic functions that ai can use
 let filePathPrefix = '../../assets/high_level_action/'

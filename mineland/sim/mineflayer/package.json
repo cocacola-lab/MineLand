@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "build": "tsc --build --force",
+    "typecheck": "tsc --noEmit"
+  },
   "keywords": [],
   "author": "",
   "packageManager": "pnpm@10.6.5",
@@ -14,11 +18,13 @@
     "minecraft-data": "^3.84.1",
     "minecrafthawkeye": "^1.3.9",
     "mineflayer": "^4.26.0",
-    "mineflayer-collectblock": "^1.6.0",
     "mineflayer-pathfinder": "^2.4.5",
     "mineflayer-pvp": "^1.3.2",
     "mineflayer-tool": "^1.2.0",
     "node-canvas-webgl": "PrismarineJS/node-canvas-webgl",
+    "prismarine-block": "^1.21.0",
+    "prismarine-entity": "^2.5.0",
+    "prismarine-item": "^1.16.0",
     "prismarine-viewer": "^1.33.0",
     "vec3": "^0.1.10"
   },
@@ -27,5 +33,10 @@
       "canvas",
       "gl"
     ]
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "ts-standard": "^12.0.2",
+    "typescript": "^5.8.2"
   }
 }
