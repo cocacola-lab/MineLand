@@ -3,28 +3,30 @@
     <h4> Simulating Large-Scale Multi-Agent Interactions with Limited Multimodal Senses and Physical Needs </h4>
 </div>
 
-
 ![illustration-whole-system](./docs/pics/illustration-whole-system-1080p.png)
 
 **MineLand** is a multi-agent Minecraft simulator with large-scale interactions, limited multimodal senses and physical needs, all contribute to more ecological and nuanced collective behaviors. MineLand simulator supports up to 48 agents with limited visual, auditory, and environmental awareness, forcing them to actively communicate and collaborate to fulfill physical needs like food and resources. This fosters dynamic and valid multi-agent interactions. We also designed an AI Agent based on MineLand - **Alex**, inspired by multitasking theory, enabling agents to handle intricate coordination and scheduling.
 
 You can check [our paper](https://arxiv.org/abs/2403.19267) for further understanding, and MineLand and Alex code is provided in this repo.
 
+<div align="center">
+    
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cocacola-lab/MineLand)
+
+</div>
 
 # 0. Contents
 
 - [0. Contents](#0-contents)
 - [1. Installation](#1-installation)
-  - [1.1 Prerequisites](#11-prerequisites)
-  - [1.2 Installation](#12-installation)
-  - [1.3 Verification](#13-verification)
+  - [1.1 Direct Install](#11-direct-install)
+  - [1.2 Installation](#12-docker-image)
 - [2. Quick Start](#2-quick-start)
-- [3. Our Paper](#3-our-paper)
+- [3. Citation](#3-citation)
 
 # 1. Installation
 
-You can refer to the [Installation Docs](./docs/installation.md) and [Q&A](./docs/q&a.md) for more detailed installation guidelines.
+You can refer to the [Installation Docs](./docs/installation.md), [Q&A](./docs/q&a.md), and [![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cocacola-lab/MineLand) for more detailed installation guidelines.
 
 We provide two methods to install MineLand: `Direct Install` and `Docker Image`.
 
