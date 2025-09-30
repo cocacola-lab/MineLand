@@ -10,6 +10,8 @@
 
 You can check [our paper](https://arxiv.org/abs/2403.19267) for further understanding, and MineLand and Alex code is provided in this repo.
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cocacola-lab/MineLand)
+
 # 0. Contents
 
 - [0. Contents](#0-contents)
